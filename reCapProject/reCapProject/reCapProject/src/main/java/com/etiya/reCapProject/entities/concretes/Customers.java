@@ -8,10 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.etiya.reCapProject.core.entities.concretes.Users;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -23,44 +24,26 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="cars")
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
-
-public class Car {
+@Table(name="customers")
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler","rentAls"})
+public class Customers {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
-	private int carId;
+	private int customerId;
 	
 	/*
-	 * @Column(name="brand_id") private int brandId;
-	 * 
-	 * @Column(name="color_id") private int colorId;
+	 * @Column(name="user_id") private int userId;
 	 */
 	
-	@Column(name="car_name")
-	private String carName;
+	@Column(name="company_name")
+	private String companyName;
 	
-	@Column(name="model_year")
-	private int modelYear;
-	
-	@Column(name="daily_price")
-	private double dailyPrice;
-	
-	@Column(name="description")
-	private String description;
-	
-	@ManyToOne
-	@JoinColumn(name="brand_id")
-	private Brand brand;
-	
-	
-	@ManyToOne
-	@JoinColumn(name="color_id")
-	private Color color;
+	@OneToOne
+	@JoinColumn(name="user_id")
+	private Users users;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "car")
+	@OneToMany(mappedBy = "customers")
 	private List<RentAl> rentAls;
 }
