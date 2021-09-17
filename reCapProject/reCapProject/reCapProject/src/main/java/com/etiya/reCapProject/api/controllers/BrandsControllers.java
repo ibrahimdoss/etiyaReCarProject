@@ -2,6 +2,7 @@ package com.etiya.reCapProject.api.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +16,9 @@ import com.etiya.reCapProject.business.abstracts.BrandService;
 import com.etiya.reCapProject.core.utilities.results.DataResult;
 import com.etiya.reCapProject.core.utilities.results.Result;
 import com.etiya.reCapProject.entities.concretes.Brand;
+import com.etiya.reCapProject.entities.requests.AddBrandRequest;
+import com.etiya.reCapProject.entities.requests.DeleteBrandRequest;
+import com.etiya.reCapProject.entities.requests.UpdateBrandRequest;
 
 @RestController
 @RequestMapping("/api/brands")
@@ -41,18 +45,18 @@ public class BrandsControllers {
 	}
 	
 	@PostMapping("/addbrand")
-	public Result add(@RequestBody Brand brand) {
-		return this.brandService.add(brand);
+	public Result add(@RequestBody @Valid AddBrandRequest addBrandRequest) {
+		return this.brandService.add(addBrandRequest);
 	}
 	
 	@PostMapping("/updatebrand")
-	public Result update(@RequestBody Brand brand) {
-		return this.brandService.update(brand);
+	public Result update(@RequestBody @Valid UpdateBrandRequest updateBrandRequest) {
+		return this.brandService.update(updateBrandRequest);
 	}
 	
 	@DeleteMapping("/deletebrand")
-	public Result delete(@RequestBody Brand brand) {
-		return this.brandService.delete(brand);
+	public Result delete(@RequestBody @Valid DeleteBrandRequest deleteBrandRequest) {
+		return this.brandService.delete(deleteBrandRequest);
 		
 	}
 

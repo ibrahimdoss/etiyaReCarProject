@@ -5,6 +5,9 @@ import java.util.List;
 import com.etiya.reCapProject.core.utilities.results.DataResult;
 import com.etiya.reCapProject.core.utilities.results.Result;
 import com.etiya.reCapProject.entities.concretes.RentAl;
+import com.etiya.reCapProject.entities.requests.AddRentAlRequest;
+import com.etiya.reCapProject.entities.requests.DeleteRentAlRequest;
+import com.etiya.reCapProject.entities.requests.UpdateRentAlRequest;
 
 public interface RentAlService {
 	
@@ -12,10 +15,10 @@ public interface RentAlService {
 	
 	DataResult<RentAl> getById(int rentalId);
 	
-	Result add(RentAl rentAl);
+	Result add(AddRentAlRequest addRentAlRequest);
 	
-	Result update(RentAl rentAl);
+	Result update(UpdateRentAlRequest updateRentAlRequest);
 
-	Result delete(RentAl rentAl);
+	Result delete(DeleteRentAlRequest deleteRentAlRequest);
 
 }

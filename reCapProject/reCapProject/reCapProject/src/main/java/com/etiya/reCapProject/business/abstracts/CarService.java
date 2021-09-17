@@ -8,6 +8,9 @@ import com.etiya.reCapProject.core.utilities.results.DataResult;
 import com.etiya.reCapProject.core.utilities.results.Result;
 import com.etiya.reCapProject.entities.concretes.Car;
 import com.etiya.reCapProject.entities.dtos.CarDetailsDto;
+import com.etiya.reCapProject.entities.requests.AddCarRequest;
+import com.etiya.reCapProject.entities.requests.DeleteCarRequest;
+import com.etiya.reCapProject.entities.requests.UpdateCarRequest;
 
 public interface CarService {
 	
@@ -21,11 +24,11 @@ public interface CarService {
 
 	DataResult<List<Car>> getById(int id);
 
-	Result add(Car car);
+	Result add(AddCarRequest addCarRequest);
 																		
-	Result update(Car car);
+	Result update(UpdateCarRequest updateCarRequest);
 
-	Result delete(Car car);
+	Result delete(DeleteCarRequest deleteCarRequest);
 }
 
 
