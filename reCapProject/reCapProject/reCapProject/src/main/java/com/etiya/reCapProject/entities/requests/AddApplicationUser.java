@@ -25,6 +25,7 @@ public class AddApplicationUser {
 	private String lastName;
 	
 	@NotNull
+	@NotBlank
 	@Email
 	private String eMail;
 

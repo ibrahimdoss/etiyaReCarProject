@@ -1,8 +1,6 @@
 package com.etiya.reCapProject.entities.requests;
 
-import javax.validation.constraints.NotBlank;
 
-import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,13 +13,11 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AddCustomerRequest {
 	
-	@NotNull
-	@NotBlank
+	
 	private String companyName;
 	
 	
-	@NotNull
-	@NotBlank
+	
 	private int id;
 
 }

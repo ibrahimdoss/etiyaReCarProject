@@ -48,7 +48,7 @@ public class UsersControllers {
 	}
 	
 	@PostMapping("/userdelete")
-	public Result delete(@RequestBody  @Valid DeleteApplicationUser deleteApplicationUser) {
+	public Result delete( DeleteApplicationUser deleteApplicationUser) {
 		return this.userService.delete(deleteApplicationUser);
 	}
 	

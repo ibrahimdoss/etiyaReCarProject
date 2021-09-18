@@ -63,4 +63,7 @@ public class Car {
 	@JsonIgnore
 	@OneToMany(mappedBy = "car")
 	private List<RentAl> rentAls;
+	
+	@OneToMany(mappedBy="car")
+	private List<CarImages> carImages;
 }

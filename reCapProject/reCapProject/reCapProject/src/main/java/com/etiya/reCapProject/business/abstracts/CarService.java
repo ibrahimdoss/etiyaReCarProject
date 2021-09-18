@@ -22,7 +22,7 @@ public interface CarService {
 	
 	DataResult<List<Car>> getAll();
 
-	DataResult<List<Car>> getById(int id);
+	DataResult<Car> getById(int carId);
 
 	Result add(AddCarRequest addCarRequest);
 																		

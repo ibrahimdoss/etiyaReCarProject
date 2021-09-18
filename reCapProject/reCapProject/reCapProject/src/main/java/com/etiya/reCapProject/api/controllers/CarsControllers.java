@@ -34,8 +34,8 @@ public class CarsControllers {
 	}
 	
 	@GetMapping("/getcarıd")
-	public DataResult<List<Car>> getById(int id) {
-		return this.carService.getById(id);
+	public DataResult<Car> getById(int carId) {
+		return this.carService.getById(carId);
 		
 	}
 	
@@ -63,7 +63,7 @@ public class CarsControllers {
 	}
 	
 	@DeleteMapping("/deletecar")
-	public Result delete(@RequestBody  @Valid DeleteCarRequest deleteCarRequest) {
+	public Result delete(DeleteCarRequest deleteCarRequest) {
 		return this.carService.delete(deleteCarRequest);
 	}
 

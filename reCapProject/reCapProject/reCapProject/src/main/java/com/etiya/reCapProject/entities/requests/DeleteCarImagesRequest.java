@@ -1,5 +1,7 @@
 package com.etiya.reCapProject.entities.requests;
 
+import java.util.Date;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,14 +10,16 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class DeleteCustomerRequest {
+@AllArgsConstructor
+public class DeleteCarImagesRequest {
 	
 	
-	private String companyName;
+	private String imagePath;
 	
 	
-	private int id;
-
+	private Date date;
+	
+	
+	private int carId;
 }

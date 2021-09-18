@@ -3,6 +3,8 @@ package com.etiya.reCapProject;
 
 
 
+//import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,17 +25,26 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import org.springframework.http.HttpStatus;
-
+//import com.cloudinary.*;
+//import com.cloudinary.utils.ObjectUtils;
 
 @SpringBootApplication
 @RestControllerAdvice
 @EnableSwagger2
 public class ReCapProjectApplication {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		SpringApplication.run(ReCapProjectApplication.class, args);
 		
-		
+		/*
+		 * Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap( "cloud_name",
+		 * "dpj4shyhs", "api_key", "965459993967681", "api_secret",
+		 * "a-l-rkOUM70If_0Reff3dVdKpS4", "secure", true));
+		 * 
+		 * 
+		 * File file = new File("my_image.jpg"); Map uploadResult =
+		 * cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+		 */
 	}
 	
 	@Bean

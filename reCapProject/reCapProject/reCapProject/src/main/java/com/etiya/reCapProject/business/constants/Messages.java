@@ -18,7 +18,11 @@ public class Messages {
         public static final String List= "Listed";
         public static final String Listed= " Id Listed";
         public static final String DetailsList= " Details Listed";
-        public static final String RentError= " Vehicle Unable to Deliver"
+        public static final String RentError= " Vehicle Unable to Deliver";
+        public static final String ImageError= " You have exceeded your image upload limit";
+        public static final String DefaultMsg= " Default Images Listed"
+		
+
 
         
         
