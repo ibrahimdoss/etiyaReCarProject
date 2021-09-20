@@ -1,8 +1,9 @@
 package com.etiya.reCapProject.entities.requests;
 
-import javax.validation.constraints.NotBlank;
 
-import com.sun.istack.NotNull;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,28 +16,24 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AddCarRequest {
 	
-	@NotNull
-	@NotBlank
+	@NotNull(message = "Boş Geçilemez")
 	private int brandId;
 	
-	@NotNull
-	@NotBlank
+	@NotNull(message = "Boş Geçilemez")
 	private int colorId;
 	
-	@NotNull
-	@NotBlank
+	@NotNull(message = "Boş Geçilemez")
 	private String carName;
 	
-	@NotNull
-	@NotBlank
+	
+	@NotNull(message = "Boş Geçilemez")
 	private int modelYear;
 	
-	@NotNull
-	@NotBlank
+	@NotNull(message = "Boş Geçilemez")
+	@Min(0)
 	private double dailyPrice;
 	
-	@NotNull
-	@NotBlank
+	@NotNull(message = "Boş Geçilemez")
 	private String description;
 
 	

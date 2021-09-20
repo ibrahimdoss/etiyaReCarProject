@@ -60,7 +60,7 @@ public class CarImagesControllers {
 	
 	
 	@DeleteMapping("/deletecarimages")
-	public Result delete(@RequestBody  DeleteCarImagesRequest deleteCarImagesRequest) {
+	public Result delete( @Valid  DeleteCarImagesRequest deleteCarImagesRequest) {
 		return this.carImagesService.delete(deleteCarImagesRequest);
 	}
 	

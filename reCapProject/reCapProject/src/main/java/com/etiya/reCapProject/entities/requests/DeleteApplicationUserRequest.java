@@ -1,5 +1,8 @@
 package com.etiya.reCapProject.entities.requests;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,13 +12,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DeleteApplicationUser {
+public class DeleteApplicationUserRequest {
 	
-	private String firstName;
-
-	private String lastName;
-
-	private String eMail;
-
-	private String password;
+	@NotBlank
+	@NotNull(message = "Boş Geçilemez!")
+	private int id;
 }

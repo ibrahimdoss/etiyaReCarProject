@@ -1,5 +1,8 @@
 package com.etiya.reCapProject.entities.requests;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DeleteColorRequest {
 	
-	private String colorName;
-
+	@NotBlank
+	@NotNull(message = "Boş Geçilemez!")
+	private int colorId;
 }

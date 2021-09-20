@@ -80,6 +80,7 @@ public class CarImagesManager implements CarImagesService{
 		CarImages carImages = new CarImages();
 		carImages.setImagePath(updateCarImagesRequest.getImagePath());
 		carImages.setDate(updateCarImagesRequest.getDate());
+		carImages.setId(updateCarImagesRequest.getId());
 		
 		carImages.setCar(car);
 		
@@ -94,10 +95,10 @@ public class CarImagesManager implements CarImagesService{
 		car.setCarId(deleteCarImagesRequest.getCarId());
 		
 		CarImages carImages = new CarImages();
-		carImages.setImagePath(deleteCarImagesRequest.getImagePath());
-		carImages.setDate(deleteCarImagesRequest.getDate());
+		carImages.setId(deleteCarImagesRequest.getId());
 		
 		carImages.setCar(car);
+
 		
 		this.carImageDao.delete(carImages);
 		return new SuccessResult(Messages.Delete);

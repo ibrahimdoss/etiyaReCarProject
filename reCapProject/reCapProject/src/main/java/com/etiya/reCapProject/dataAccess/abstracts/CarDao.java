@@ -2,6 +2,7 @@ package com.etiya.reCapProject.dataAccess.abstracts;
 
 import java.util.List;
 
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -23,7 +24,17 @@ public interface CarDao extends JpaRepository<Car, Integer>{
 	
 	boolean existsByCarImagesIsNull();
 	
+
+	List<Car> getByBrand_brandId(int brandId);
+	
+	List<Car> getByColor_colorId(int colorId);
 	
 	
 	
+
+	
+
+	
+	
+
 }

@@ -50,7 +50,7 @@ public class CustomersControllers {
 	}
 	
 	@DeleteMapping("/customerdelete")
-	public Result delete(  DeleteCustomerRequest deleteCustomerRequest) {
+	public Result delete( @Valid DeleteCustomerRequest deleteCustomerRequest) {
 		
 		return this.customerService.delete(deleteCustomerRequest);
 	}

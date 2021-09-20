@@ -72,7 +72,7 @@ public class CustomerManager implements CustomerService {
 	public Result delete(DeleteCustomerRequest deleteCustomerRequest) {
 		
 		Customers customers = new Customers();
-		customers.setCompanyName(deleteCustomerRequest.getCompanyName());
+		customers.setCustomerId(deleteCustomerRequest.getCustomerId());
 		
 		ApplicationUser applicationUser= new ApplicationUser();
 		applicationUser.setId(deleteCustomerRequest.getId());

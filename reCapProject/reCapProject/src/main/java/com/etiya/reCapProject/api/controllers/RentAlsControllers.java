@@ -56,8 +56,8 @@ public class RentAlsControllers {
 	}
 	
 	@DeleteMapping("/rentaldelete")
-	public Result delete( DeleteRentAlRequest deleteRentAlRequest ) {
-		return this.rentAlService.delete(deleteRentAlRequest);
+	public Result delete( @Valid DeleteRentAlRequest deleteRentAlRequest ) {
+		return this.rentAlService.delete( deleteRentAlRequest);
 	}
 	
 	

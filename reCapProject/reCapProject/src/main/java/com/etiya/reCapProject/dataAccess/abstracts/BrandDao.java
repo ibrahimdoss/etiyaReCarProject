@@ -11,5 +11,7 @@ import com.etiya.reCapProject.entities.concretes.Brand;
 public interface BrandDao extends JpaRepository<Brand, Integer>{
 	
 	List<Brand> getByBrandId(int brandId);
+	
+	
 
 }

@@ -1,5 +1,7 @@
 package com.etiya.reCapProject.entities.requests;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,10 +14,12 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DeleteCustomerRequest {
 	
+	@NotNull(message = "Boş Geçilemez!")
+	@NotBlank
+	private int customerId;
 	
-	private String companyName;
-	
-	
+	@NotNull(message = "Boş Geçilemez!")
+	@NotBlank
 	private int id;
 
 }

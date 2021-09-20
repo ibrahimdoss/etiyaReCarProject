@@ -54,7 +54,7 @@ public class ColorsControllers {
 	
 	
 	@DeleteMapping("/deletecolor")
-	public Result delete(  DeleteColorRequest deleteColorRequest)  {
+	public Result delete(@Valid  DeleteColorRequest deleteColorRequest)  {
 		return this.colorService.delete(deleteColorRequest);
 	}
 

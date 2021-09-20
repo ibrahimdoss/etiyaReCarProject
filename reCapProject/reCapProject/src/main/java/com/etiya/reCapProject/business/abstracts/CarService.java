@@ -20,9 +20,22 @@ public interface CarService {
 			+ " Inner Join c.color cl")
 	DataResult<List<CarDetailsDto>> getCarWithDetails();
 	
+	
+	/*
+	 * DataResult<List<CarWithCarImagesDetailsDto>> getCarWithCarImagesDetails(int
+	 * carId);
+	 */
+	
+	
+	
 	DataResult<List<Car>> getAll();
 
 	DataResult<Car> getById(int carId);
+	
+
+	DataResult<List<Car>> getByBrand_brandId(int brandId);
+	
+	DataResult<List<Car>> getByColor_colorId(int colorId);
 
 	Result add(AddCarRequest addCarRequest);
 																		

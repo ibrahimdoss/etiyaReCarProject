@@ -1,5 +1,6 @@
 package com.etiya.reCapProject.entities.concretes;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -22,6 +23,11 @@ import lombok.NoArgsConstructor;
 @Table(name = "users")
 public class ApplicationUser extends Users{
 	
+	@Column(name="first_name")
+	private String firstName;
+	
+	@Column(name="last_name")
+	private String lastName;
 	
 	@JsonIgnore
 	@OneToOne(mappedBy = "applicationUser")

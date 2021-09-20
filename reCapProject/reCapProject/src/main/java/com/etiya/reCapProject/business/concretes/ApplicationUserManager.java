@@ -13,8 +13,10 @@ import com.etiya.reCapProject.core.utilities.results.SuccessDataResult;
 import com.etiya.reCapProject.core.utilities.results.SuccessResult;
 import com.etiya.reCapProject.dataAccess.abstracts.ApplicationUserDao;
 import com.etiya.reCapProject.entities.concretes.ApplicationUser;
+import com.etiya.reCapProject.entities.dtos.UserLoginDto;
+import com.etiya.reCapProject.entities.dtos.UserRegisterDto;
 import com.etiya.reCapProject.entities.requests.AddApplicationUser;
-import com.etiya.reCapProject.entities.requests.DeleteApplicationUser;
+import com.etiya.reCapProject.entities.requests.DeleteApplicationUserRequest;
 import com.etiya.reCapProject.entities.requests.UpdateApplicationUser;
 
 @Service
@@ -61,16 +63,37 @@ public class ApplicationUserManager implements ApplicationUserService {
 	}
 
 	@Override
-	public Result delete(DeleteApplicationUser deleteApplicationUser) {
-		
+	public Result delete(DeleteApplicationUserRequest deleteApplicationUserRequest) {
 		ApplicationUser applicationUser= new ApplicationUser();
-		applicationUser.setFirstName(deleteApplicationUser.getFirstName());
-		applicationUser.setLastName(deleteApplicationUser.getLastName());
-		applicationUser.setEMail(deleteApplicationUser.getEMail());
-		applicationUser.setPassword(deleteApplicationUser.getPassword());
+		applicationUser.setId(deleteApplicationUserRequest.getId());
 		
 		this.userDao.delete(applicationUser);
 		return new SuccessResult(Messages.Delete);
+		
+		
+	}
+
+	@Override
+	public Result userLogin(UserLoginDto userLoginDto) {
+		ApplicationUser applicationUser = new ApplicationUser();
+		applicationUser.setEMail(userLoginDto.getEMail());
+		applicationUser.setPassword(userLoginDto.getPassword());
+		
+		this.userDao.save(applicationUser);
+		return new SuccessResult(Messages.Add);
+	}
+
+	@Override
+	public Result userRegister(UserRegisterDto userRegisterDto) {
+		
+		ApplicationUser applicationUser = new ApplicationUser();
+		applicationUser.setEMail(userRegisterDto.getEMail());
+		applicationUser.setPassword(userRegisterDto.getPassword());
+		applicationUser.setFirstName(userRegisterDto.getFirstName());
+		applicationUser.setLastName(userRegisterDto.getLastName());
+		
+		this.userDao.save(applicationUser);
+		return new SuccessResult(Messages.Add);
 	}
 
 }

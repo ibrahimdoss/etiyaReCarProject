@@ -40,12 +40,17 @@ public class CarManager implements CarService {
 		return new SuccessDataResult<List<CarDetailsDto>>(this.carDao.getCarWithDetails()+ Messages.DetailsList);
 	}
 
+	
+//	@Override
+//	public DataResult<List<CarWithCarImagesDetailsDto>> getCarWithCarImagesDetails(int carId) {
+//		List<CarWithCarImagesDetailsDto> cars= this.carDao.getCarWithCarImagesDetails(carId);
+//		return new SuccessDataResult<List<CarWithCarImagesDetailsDto>>(cars,Messages.DetailsList);
+//	}
 
 
 	@Override
 	public DataResult<List<Car>> getAll() {
-		return new SuccessDataResult<List<Car>>(
-				returnCarsWithDefaultImageWhereCarImageIsNull(this.carDao.findAll()).getData()+ Messages.List);
+		return new SuccessDataResult<List<Car>>(this.carDao.findAll());
 				
 		
 	}
@@ -60,6 +65,19 @@ public class CarManager implements CarService {
 
 		return new SuccessDataResult<Car>(this.carDao.getById(carId) , Messages.Listed);
 		
+	}
+	
+	@Override
+	public DataResult<List<Car>> getByBrand_brandId(int brandId) {
+		List<Car> cars= this.carDao.getByBrand_brandId(brandId);
+		return new SuccessDataResult<List<Car>>(cars, Messages.Listed);
+	}
+
+
+	@Override
+	public DataResult<List<Car>> getByColor_colorId(int colorId) {
+		List<Car> cars= this.carDao.getByColor_colorId(colorId);
+		return new SuccessDataResult<List<Car>>(cars, Messages.Listed);
 	}
 
 	@Override
@@ -119,12 +137,9 @@ public class CarManager implements CarService {
 		Color color= new Color();
 		color.setColorId(deleteCarRequest.getColorId());
 		
+
 		Car car= new Car();
-		car.setCarName(deleteCarRequest.getCarName());
-		car.setModelYear(deleteCarRequest.getModelYear());
-		car.setDailyPrice(deleteCarRequest.getDailyPrice());
-		car.setDescription(deleteCarRequest.getDescription());
-		
+		car.setCarId(deleteCarRequest.getCarId());
 
 		car.setBrand(brand);
 		car.setColor(color);
@@ -152,24 +167,14 @@ public class CarManager implements CarService {
 		return new SuccessDataResult<Car>(car, Messages.DefaultMsg);
 	}
 	
-	private DataResult<Car> returnCarsWithDefaultImageWhereCarImageIsNull(List<Car> cars){
-		
-		CarImages carImage = new CarImages();
-		carImage.setImagePath("carImages/default.jpg");
+	
 
-		List<CarImages> carImages = new ArrayList<CarImages>();
-		carImages.add(carImage);
+	
 
-		if (this.carDao.existsByCarImagesIsNull()) {
-			for (Car car : cars) {
-				if (this.carDao.existsByCarImagesIsNullAndCarId(car.getCarId())) {
-					car.setCarImages(carImages);
-				}
-			}
-		}
-		
-		return new SuccessDataResult<Car>(cars + Messages.DefaultMsg);
-	}
+
+
+
+	
 
 
 

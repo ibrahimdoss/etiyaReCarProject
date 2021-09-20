@@ -3,8 +3,7 @@ package com.etiya.reCapProject.entities.requests;
 import java.util.Date;
 
 import javax.validation.constraints.NotBlank;
-
-import com.sun.istack.NotNull;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,19 +16,21 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UpdateRentAlRequest {
 	
-	@NotNull
+	@NotNull(message = "Boş Geçilemez!")
 	@NotBlank
+	private String carName;
+	
 	private Date rentDate;
 	
-	@NotNull
-	@NotBlank
+	
 	private Date returnDate;
 	
-	@NotNull
-	@NotBlank	
+	
+	@NotBlank
+	@NotNull(message = "Boş Geçilemez!")	
 	private int carId;
 	
-	@NotNull
 	@NotBlank
+	@NotNull(message = "Boş Geçilemez!")
 	private int customerId;
 }

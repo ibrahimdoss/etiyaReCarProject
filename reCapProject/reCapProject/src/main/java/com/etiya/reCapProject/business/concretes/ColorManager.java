@@ -65,8 +65,9 @@ public class ColorManager implements ColorService{
 
 	@Override
 	public Result delete(DeleteColorRequest deleteColorRequest) {
+		
 		Color color = new Color();
-		color.setColorName(deleteColorRequest.getColorName());
+		color.setColorId(deleteColorRequest.getColorId());
 		
 		this.colorDao.delete(color);
 		return new SuccessResult(Messages.Delete);

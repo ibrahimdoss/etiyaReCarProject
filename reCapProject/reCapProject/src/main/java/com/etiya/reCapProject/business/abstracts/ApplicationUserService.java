@@ -5,8 +5,10 @@ import java.util.List;
 import com.etiya.reCapProject.core.utilities.results.DataResult;
 import com.etiya.reCapProject.core.utilities.results.Result;
 import com.etiya.reCapProject.entities.concretes.ApplicationUser;
+import com.etiya.reCapProject.entities.dtos.UserLoginDto;
+import com.etiya.reCapProject.entities.dtos.UserRegisterDto;
 import com.etiya.reCapProject.entities.requests.AddApplicationUser;
-import com.etiya.reCapProject.entities.requests.DeleteApplicationUser;
+import com.etiya.reCapProject.entities.requests.DeleteApplicationUserRequest;
 import com.etiya.reCapProject.entities.requests.UpdateApplicationUser;
 
 public interface ApplicationUserService {
@@ -17,6 +19,9 @@ public interface ApplicationUserService {
 	
 	Result update(UpdateApplicationUser updateApplicationUser);
 
-	Result delete(DeleteApplicationUser deleteApplicationUser);
-
+	Result delete(DeleteApplicationUserRequest deleteApplicationUserRequest);
+	
+	Result userLogin(UserLoginDto userLoginDto);
+	
+	Result userRegister(UserRegisterDto userRegisterDto);
 }

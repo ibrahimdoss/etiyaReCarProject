@@ -1,7 +1,7 @@
 package com.etiya.reCapProject.entities.requests;
 
-import java.util.Date;
-
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,16 +10,16 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class DeleteCarImagesRequest {
 	
+	@NotBlank
+	@NotNull(message = "Boş Geçilemez!")
+	private int id;
 	
-	private String imagePath;
-	
-	
-	private Date date;
-	
-	
+	@NotBlank
+	@NotNull(message = "Boş Geçilemez!")
 	private int carId;
+
 }

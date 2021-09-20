@@ -45,12 +45,31 @@ public class CarsControllers {
 		
 	}
 	
+	/*
+	 * @GetMapping("/getcarwithcarımagesdetails") public
+	 * DataResult<List<CarWithCarImagesDetailsDto>> getCarWithCarImagesDetails(int
+	 * carId) { return this.carService.getCarWithCarImagesDetails(carId); }
+	 */
+
+	
+	
+	
 	@GetMapping("/getcarwithdetail")
 	public DataResult<List<CarDetailsDto>> getCarWithDetails() {
 		return this.carService.getCarWithDetails();
 	}
-
 	
+	@GetMapping("/getbybrandıd")
+	public DataResult<List<Car>> getByBrand_brandId(int brandId) {
+		return this.carService.getByBrand_brandId(brandId);
+			
+	}
+	
+	@GetMapping("/getbycolorıd")
+	public DataResult<List<Car>> getByColor_colorId(int colorId) {
+		return this.carService.getByColor_colorId(colorId);
+	}
+
 	
 	@PostMapping("/addcar")
 	public Result add(@RequestBody @Valid AddCarRequest addCarRequest) {
@@ -63,10 +82,9 @@ public class CarsControllers {
 	}
 	
 	@DeleteMapping("/deletecar")
-	public Result delete(DeleteCarRequest deleteCarRequest) {
+	public Result delete( @Valid  DeleteCarRequest deleteCarRequest) {
 		return this.carService.delete(deleteCarRequest);
 	}
-
 
 	
 }

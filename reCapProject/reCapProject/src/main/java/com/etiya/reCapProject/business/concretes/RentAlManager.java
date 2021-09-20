@@ -56,6 +56,7 @@ public class RentAlManager implements RentAlService{
 		
 		Car car=new Car();
 		car.setCarId(addRentAlRequest.getCarId());
+		car.setCarName(addRentAlRequest.getCarName());
 		
 		rentAl.setCar(car);
 		rentAl.setCustomers(customers);
@@ -79,8 +80,11 @@ public class RentAlManager implements RentAlService{
 		Customers customers=new Customers();
 		customers.setCustomerId(updateRentAlRequest.getCustomerId());
 		
+		
 		Car car=new Car();
 		car.setCarId(updateRentAlRequest.getCarId());
+		car.setCarName(updateRentAlRequest.getCarName());
+
 		
 		rentAl.setCar(car);
 		rentAl.setCustomers(customers);
@@ -94,17 +98,14 @@ public class RentAlManager implements RentAlService{
 	public Result delete(DeleteRentAlRequest deleteRentAlRequest) {
 		
 		RentAl rentAl=new RentAl();
-		rentAl.setRentDate(deleteRentAlRequest.getRentDate());
-		rentAl.setReturnDate(deleteRentAlRequest.getReturnDate());
+		rentAl.setRentAlId(deleteRentAlRequest.getRentAlId());
 		
 		Customers customers=new Customers();
 		customers.setCustomerId(deleteRentAlRequest.getCustomerId());
 		
 		Car car=new Car();
 		car.setCarId(deleteRentAlRequest.getCarId());
-		
-		rentAl.setCar(car);
-		rentAl.setCustomers(customers);
+
 		
 		this.rentAlDao.delete(rentAl);
 		return new SuccessResult(Messages.Delete);

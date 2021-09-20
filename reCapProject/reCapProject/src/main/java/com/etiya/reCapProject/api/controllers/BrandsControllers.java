@@ -55,7 +55,7 @@ public class BrandsControllers {
 	}
 	
 	@DeleteMapping("/deletebrand")
-	public Result delete( DeleteBrandRequest deleteBrandRequest) {
+	public Result delete(  @Valid DeleteBrandRequest deleteBrandRequest) {
 		return this.brandService.delete(deleteBrandRequest);
 		
 	}

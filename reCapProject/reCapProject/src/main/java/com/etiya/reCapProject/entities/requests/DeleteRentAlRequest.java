@@ -1,10 +1,7 @@
 package com.etiya.reCapProject.entities.requests;
 
-import java.util.Date;
-
 import javax.validation.constraints.NotBlank;
-
-import com.sun.istack.NotNull;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,25 +12,17 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class DeleteRentAlRequest {
 	
-	@NotNull
 	@NotBlank
-	private Date rentDate;
-	
-	
-	@NotNull
-	@NotBlank
-	private Date returnDate;
-	
-	
-	@NotNull
-	@NotBlank
-	private int carId;
-	
-	
-	@NotNull
-	@NotBlank
+	@NotNull(message = "Boş Geçilemez!")
+	private int rentAlId;
+
+
+	@NotNull(message = "Boş Geçilemez!")
 	private int customerId;
+	
+	@NotBlank
+	@NotNull(message = "Boş Geçilemez!")
+	private int carId;
 }
