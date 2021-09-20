@@ -1,6 +1,5 @@
 package com.etiya.reCapProject.business.concretes;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,14 +8,12 @@ import org.springframework.stereotype.Service;
 import com.etiya.reCapProject.business.abstracts.CarService;
 import com.etiya.reCapProject.business.constants.Messages;
 import com.etiya.reCapProject.core.utilities.results.DataResult;
-import com.etiya.reCapProject.core.utilities.results.ErrorDataResult;
 import com.etiya.reCapProject.core.utilities.results.Result;
 import com.etiya.reCapProject.core.utilities.results.SuccessDataResult;
 import com.etiya.reCapProject.core.utilities.results.SuccessResult;
 import com.etiya.reCapProject.dataAccess.abstracts.CarDao;
 import com.etiya.reCapProject.entities.concretes.Brand;
 import com.etiya.reCapProject.entities.concretes.Car;
-import com.etiya.reCapProject.entities.concretes.CarImages;
 import com.etiya.reCapProject.entities.concretes.Color;
 import com.etiya.reCapProject.entities.dtos.CarDetailsDto;
 import com.etiya.reCapProject.entities.requests.AddCarRequest;
@@ -57,13 +54,8 @@ public class CarManager implements CarService {
 
 	@Override
 	public DataResult<Car> getById(int carId) {
+		return new SuccessDataResult<Car>(this.carDao.getById(carId),Messages.Listed);
 		
-		if (this.returnCarWithDefaultImageIfCarImageIsNull(carId).isSuccess()) {
-			return new SuccessDataResult<Car>(this.returnCarWithDefaultImageIfCarImageIsNull(carId).getData(),
-					Messages.Listed);
-		}
-
-		return new SuccessDataResult<Car>(this.carDao.getById(carId) , Messages.Listed);
 		
 	}
 	
@@ -151,21 +143,6 @@ public class CarManager implements CarService {
 	}
 	
 	
-	private DataResult<Car> returnCarWithDefaultImageIfCarImageIsNull(int carId){
-		if (!this.carDao.existsByCarImagesIsNullAndCarId(carId)) {
-			return new ErrorDataResult<Car>();
-					
-		}
-		
-		CarImages carImages = new CarImages();
-		carImages.setImagePath("carImages/default.jpg");
-		
-		List<CarImages> carImagess= new ArrayList<CarImages>();
-		
-		Car car = this.carDao.getById(carId);
-		car.setCarImages(carImagess);
-		return new SuccessDataResult<Car>(car, Messages.DefaultMsg);
-	}
 	
 	
 

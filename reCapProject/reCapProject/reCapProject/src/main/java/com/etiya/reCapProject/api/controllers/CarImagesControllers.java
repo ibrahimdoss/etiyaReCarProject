@@ -1,5 +1,6 @@
 package com.etiya.reCapProject.api.controllers;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -9,9 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.etiya.reCapProject.business.abstracts.CarImagesService;
 import com.etiya.reCapProject.core.utilities.results.DataResult;
@@ -40,22 +41,20 @@ public class CarImagesControllers {
 	}
 	
 	@GetMapping("/getbycarid")
-	public DataResult<List<CarImages>> getByCar_CarId(int carId){
-		return this.carImagesService.getByCar_CarId(carId);
-	}
-	@GetMapping("/getcarimagesbyid")
-	public DataResult<CarImages> getById(int id) {
-		return this.carImagesService.getById(id);
+	public DataResult<List<CarImages>> getByCar_CarId(int carId) {
+		return this.carImagesService.getCarImagesByCarId(carId);
 	}
 	
+	
+	
 	@PostMapping("/addcarimages")
-	public ResponseEntity<?> add(@Valid @RequestBody   AddCarImagesRequest addCarImagesRequest) {
-		return ResponseEntity.ok(this.carImagesService.add(addCarImagesRequest));
+	public ResponseEntity<?> add(@Valid   AddCarImagesRequest addCarImagesRequest, MultipartFile file) throws IOException {
+		return ResponseEntity.ok(this.carImagesService.add(addCarImagesRequest, file));
 	}
 	
 	@PostMapping("/updatecarimages")
-	public ResponseEntity<?> update(@Valid @RequestBody   UpdateCarImagesRequest updateCarImagesRequest) {
-		return ResponseEntity.ok(this.carImagesService.update(updateCarImagesRequest));
+	public ResponseEntity<?> update(@Valid    UpdateCarImagesRequest updateCarImagesRequest, MultipartFile file)throws IOException {
+		return ResponseEntity.ok(this.carImagesService.update(updateCarImagesRequest,file));
 	}
 	
 	

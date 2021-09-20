@@ -1,6 +1,5 @@
 package com.etiya.reCapProject.entities.requests;
 
-import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
@@ -16,9 +15,7 @@ import lombok.Setter;
 public class AddCarImagesRequest {
 	
 	
-	private String imagePath;
 	
-	private Date date;
 	
 	@NotNull(message = "Boş Geçilemez!")
 	private int carId;

@@ -20,9 +20,7 @@ public interface CarDao extends JpaRepository<Car, Integer>{
 			+ " Inner Join c.color cl")
 	List<CarDetailsDto> getCarWithDetails();
 	
-	boolean existsByCarImagesIsNullAndCarId(int carId);
-	
-	boolean existsByCarImagesIsNull();
+
 	
 
 	List<Car> getByBrand_brandId(int brandId);
