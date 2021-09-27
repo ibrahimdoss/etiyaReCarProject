@@ -29,6 +29,9 @@ public class UpdateRentAlRequest {
 	
 	private String returnDate;
 	
+	private String takeCity;
+	
+	private String returnCity;
 	
 	
 	@NotNull(message = "Boş Geçilemez!")	

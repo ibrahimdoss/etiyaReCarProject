@@ -26,6 +26,7 @@ import com.etiya.reCapProject.entities.concretes.CorporateCustomer;
 import com.etiya.reCapProject.entities.concretes.IndividualCustomer;
 import com.etiya.reCapProject.entities.concretes.RentAl;
 import com.etiya.reCapProject.entities.requests.rentalRequest.AddRentAlRequest;
+import com.etiya.reCapProject.entities.requests.rentalRequest.DeleteRentAlRequest;
 import com.etiya.reCapProject.entities.requests.rentalRequest.UpdateRentAlRequest;
 
 @Service
@@ -161,6 +162,7 @@ public class RentAlManager implements RentAlService{
 		rentAl.setRentAlId(updateRentAlRequest.getRentAlId());
 		rentAl.setRentDate(updateRentAlRequest.getRentDate());
 		rentAl.setReturnDate(updateRentAlRequest.getReturnDate());
+		rentAl.setTakeCity(updateRentAlRequest.getTakeCity());
 		
 		rentAl.setCar(car);
 		rentAl.setCustomers(corporateCustomer);
@@ -177,7 +179,16 @@ public class RentAlManager implements RentAlService{
 		return new SuccessResult(Messages.Update);
 	}
 	
-
+	
+	
+	@Override
+	public Result delete(DeleteRentAlRequest deleteRentAlRequest) {
+		RentAl rentAl= this.rentAlDao.getById(deleteRentAlRequest.getRentAlId());
+		
+		this.rentAlDao.save(rentAl);
+		return new SuccessResult(Messages.Delete);
+	}
+	
 	
 	
 	
@@ -216,19 +227,20 @@ public class RentAlManager implements RentAlService{
 	
 	
 	private Result checkIsCarCare(int carId) {
+		if (!this.rentAlDao.getByCar_CarId(carId).isEmpty()) {
+			Care care= this.careDao.getByCar_CarId(carId)
+					.get(this.careDao.getByCar_CarId(carId).size()-1);
+			
+			
+			if (care.getFinishDate()==null) {
+				return new ErrorResult(Messages.rentalcareError);
+		}
 		
-		Care care= this.careDao.getByCar_CarId(carId)
-				.get(this.careDao.getByCar_CarId(carId).size()-1);
-		
-		if (care.getFinishDate()==null) {
-			return new ErrorResult(Messages.rentalcareError);
 		}
 		return new SuccessResult();
 	}
-	
-	
-	
-	
+
+
 	
 	
 

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,7 @@ import com.etiya.reCapProject.core.utilities.results.DataResult;
 import com.etiya.reCapProject.core.utilities.results.Result;
 import com.etiya.reCapProject.entities.concretes.RentAl;
 import com.etiya.reCapProject.entities.requests.rentalRequest.AddRentAlRequest;
+import com.etiya.reCapProject.entities.requests.rentalRequest.DeleteRentAlRequest;
 import com.etiya.reCapProject.entities.requests.rentalRequest.UpdateRentAlRequest;
 
 @RestController
@@ -49,6 +51,12 @@ public class RentAlsControllers {
 	public Result updateRentalForCorporateCustomer(@Valid @RequestBody UpdateRentAlRequest updateRentalRequest) {
 		return this.rentAlService.updateRentalForCorporateCustomer(updateRentalRequest);
 	}
+	
+	@DeleteMapping("/delete")
+	public Result delete(DeleteRentAlRequest deleteRentAlRequest) {
+		return this.rentAlService.delete(deleteRentAlRequest);
+	}
+
 	
 	@GetMapping("/getall")
 	public DataResult<List<RentAl>> getAll() {

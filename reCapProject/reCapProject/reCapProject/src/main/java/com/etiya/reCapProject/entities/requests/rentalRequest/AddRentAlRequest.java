@@ -33,6 +33,13 @@ public class AddRentAlRequest {
 	private String carName;
 	
 	@NotNull(message = "Boş Geçilemez!")
+	private String takeCity;
+	
+	@NotNull(message = "Boş Geçilemez!")
+	private String returnCity;
+
+	
+	@NotNull(message = "Boş Geçilemez!")
 	private int customerId;
 	
 	@NotNull(message = "Boş Geçilemez!")
