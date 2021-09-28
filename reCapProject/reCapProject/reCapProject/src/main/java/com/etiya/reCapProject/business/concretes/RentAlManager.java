@@ -65,8 +65,12 @@ public class RentAlManager implements RentAlService{
 	
 	@Override
 	public Result addRentalForIndividualCustomer(AddRentAlRequest addRentAlRequest) {
-		Car car=new Car();
-		car.setCarId(addRentAlRequest.getCarId());
+		Car car=this.carDao.getById(addRentAlRequest.getCarId());
+		
+		//teslim ettikten sonraki teslim edilen il
+		car.setCity(addRentAlRequest.getReturnCity());
+		this.carDao.save(car);
+
 		
 		IndividualCustomer individualCustomer= new IndividualCustomer();
 		individualCustomer.setId(addRentAlRequest.getCustomerId());
@@ -74,6 +78,13 @@ public class RentAlManager implements RentAlService{
 		RentAl rentAl=new RentAl();
 		rentAl.setRentDate(addRentAlRequest.getRentDate());
 		rentAl.setReturnDate(addRentAlRequest.getReturnDate());
+		
+		//kiralamadan önceki başlangıç şehiri.
+		rentAl.setTakeCity(car.getCity());
+		rentAl.setStartKilometer(addRentAlRequest.getStartKilometer());
+		rentAl.setReturnCity(addRentAlRequest.getReturnCity());
+		
+		car.setKilometer(addRentAlRequest.getStartKilometer()+car.getKilometer());
 		
 		rentAl.setCar(car);
 		rentAl.setCustomers(individualCustomer);
@@ -94,8 +105,10 @@ public class RentAlManager implements RentAlService{
 
 	@Override
 	public Result updateRentalForIndividualCustomer(UpdateRentAlRequest updateRentAlRequest) {
-		Car car=new Car();
-		car.setCarId(updateRentAlRequest.getCarId());
+		Car car=this.carDao.getById(updateRentAlRequest.getCarId());
+		car.setCity(updateRentAlRequest.getReturnCity());
+		this.carDao.save(car);
+	
 		
 		IndividualCustomer individualCustomer= new IndividualCustomer();
 		individualCustomer.setId(updateRentAlRequest.getCustomerId());	
@@ -112,6 +125,10 @@ public class RentAlManager implements RentAlService{
 		RentAl rentAl=new RentAl();
 		rentAl.setRentDate(updateRentAlRequest.getRentDate());
 		rentAl.setReturnDate(updateRentAlRequest.getReturnDate());
+		rental.setStartKilometer(updateRentAlRequest.getStartKilometer());
+		rentAl.setTakeCity(car.getCity());
+		car.setKilometer(updateRentAlRequest.getStartKilometer()+car.getKilometer());
+
 		
 		rental.setCar(car);
 		rental.setCustomers(individualCustomer);
@@ -122,27 +139,39 @@ public class RentAlManager implements RentAlService{
 
 	@Override
 	public Result addRentalForCorporateCustomer(AddRentAlRequest addRentAlRequest) {
-		Car car=new Car();
-		car.setCarId(addRentAlRequest.getCarId());	
+		Car car=this.carDao.getById(addRentAlRequest.getCarId());
+		//teslim ettikten sonraki teslim edilen il
+		car.setCity(addRentAlRequest.getReturnCity());	
+		this.carDao.save(car);
+		
 		
 		CorporateCustomer corporateCustomer=new CorporateCustomer();
 		corporateCustomer.setId(addRentAlRequest.getCustomerId());
 		
-		RentAl rentAl=new RentAl();
-		rentAl.setRentDate(addRentAlRequest.getRentDate());
-		rentAl.setReturnDate(addRentAlRequest.getReturnDate());
-		
-		rentAl.setCar(car);
-		rentAl.setCustomers(corporateCustomer);
-		
 
-		var result= BusinnesRules.run(checkCarIsSubmit(rentAl.getCar().getCarId()),checkCorporateCustomerFindexPoint(
+		var result= BusinnesRules.run(checkCarIsSubmit(addRentAlRequest.getCarId()),checkCorporateCustomerFindexPoint(
 				this.corporateCustomerDao.getById(addRentAlRequest.getCustomerId()),
 				this.carDao.getById(addRentAlRequest.getCarId())),checkIsCarCare(addRentAlRequest.getCarId()));
 
 		if (result!=null) {
 			return result;
 		}
+		
+		RentAl rentAl=new RentAl();
+		rentAl.setRentDate(addRentAlRequest.getRentDate());
+		rentAl.setReturnDate(addRentAlRequest.getReturnDate());
+		rentAl.setStartKilometer(addRentAlRequest.getStartKilometer());
+		
+		//kiralamadan önceki başlangıç şehiri.
+		rentAl.setTakeCity(car.getCity());
+		rentAl.setReturnCity(addRentAlRequest.getReturnCity());
+		
+		car.setKilometer(addRentAlRequest.getStartKilometer()+car.getKilometer());
+
+		rentAl.setCar(car);
+		rentAl.setCustomers(corporateCustomer);
+		
+
 		
 		this.rentAlDao.save(rentAl);
 		return new SuccessResult(Messages.Add);
@@ -152,8 +181,11 @@ public class RentAlManager implements RentAlService{
 
 	@Override
 	public Result updateRentalForCorporateCustomer(UpdateRentAlRequest updateRentAlRequest) {
-		Car car=new Car();
-		car.setCarId(updateRentAlRequest.getCarId());
+		Car car=this.carDao.getById(updateRentAlRequest.getCarId());
+		//teslim ettikten sonraki teslim edilen il
+		car.setCity(updateRentAlRequest.getReturnCity());	
+		this.carDao.save(car);
+
 		
 		CorporateCustomer corporateCustomer=new CorporateCustomer();
 		corporateCustomer.setId(updateRentAlRequest.getCustomerId());
@@ -163,6 +195,13 @@ public class RentAlManager implements RentAlService{
 		rentAl.setRentDate(updateRentAlRequest.getRentDate());
 		rentAl.setReturnDate(updateRentAlRequest.getReturnDate());
 		rentAl.setTakeCity(updateRentAlRequest.getTakeCity());
+		rentAl.setStartKilometer(updateRentAlRequest.getStartKilometer());
+		car.setKilometer(updateRentAlRequest.getStartKilometer()+car.getKilometer());
+
+
+		
+		//kiralamadan önceki başlangıç şehiri.
+		rentAl.setTakeCity(car.getCity());
 		
 		rentAl.setCar(car);
 		rentAl.setCustomers(corporateCustomer);
@@ -227,7 +266,7 @@ public class RentAlManager implements RentAlService{
 	
 	
 	private Result checkIsCarCare(int carId) {
-		if (!this.rentAlDao.getByCar_CarId(carId).isEmpty()) {
+		if (this.careDao.getByCar_CarId(carId).size() != 0) {
 			Care care= this.careDao.getByCar_CarId(carId)
 					.get(this.careDao.getByCar_CarId(carId).size()-1);
 			

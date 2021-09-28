@@ -1,7 +1,8 @@
 package com.etiya.reCapProject.entities.requests.rentalRequest;
 
 
-import javax.validation.constraints.NotBlank;
+import java.util.Date;
+
 import javax.validation.constraints.NotNull;
 
 import org.springframework.validation.annotation.Validated;
@@ -20,29 +21,25 @@ import lombok.Setter;
 
 public class AddRentAlRequest {
 	
-	@NotNull(message = "Boş Geçilemez!")
-	private String rentDate;
+	private Date rentDate;
 
-	private String returnDate;
+	private Date returnDate;
 	
 	@NotNull(message = "Boş Geçilemez!")
 	private int carId;
-	
-	@NotNull(message = "Boş Geçilemez!")
-	@NotBlank
-	private String carName;
 	
 	@NotNull(message = "Boş Geçilemez!")
 	private String takeCity;
 	
 	@NotNull(message = "Boş Geçilemez!")
 	private String returnCity;
+	
+	private int startKilometer;
 
 	
 	@NotNull(message = "Boş Geçilemez!")
 	private int customerId;
 	
-	@NotNull(message = "Boş Geçilemez!")
-	private boolean saveCreditCard;
+	
 
 }

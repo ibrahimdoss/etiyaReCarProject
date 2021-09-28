@@ -27,6 +27,10 @@ public class AddCarRequest {
 	private String carName;
 	
 	@NotNull(message = "Boş Geçilemez")
+	private int kilometer;
+
+	
+	@NotNull(message = "Boş Geçilemez")
 	private boolean isCarCare;
 	
 	private String city;

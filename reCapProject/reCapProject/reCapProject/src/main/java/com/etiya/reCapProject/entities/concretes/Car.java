@@ -53,6 +53,9 @@ public class Car {
 	@Column(name="description")
 	private String description;
 	
+	@Column(name="kilometer")
+	private int kilometer;
+	
 	@Column(name="city")
 	private String city;
 	
@@ -78,13 +81,15 @@ public class Car {
 	@OneToMany(mappedBy = "car")
 	private List<RentAl> rentAls;
 	
-	
+	@JsonIgnore
 	@OneToMany(mappedBy="car")
 	private List<CarImages> carImages;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "car")
 	private List<CarDamage> carDamages;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "car")
 	private List<Care> cares;
 }

@@ -27,12 +27,15 @@ public class UpdateCarRequest {
 	
 	@NotNull(message = "Boş Geçilemez")
 	private boolean isCarCare;
-
+	
+	@NotNull(message = "Boş Geçilemez")
 	private String city;
+	
+	@NotNull(message = "Boş Geçilemez")
+	private int kilometer;
 
 	
 	@NotNull(message = "Boş Geçilemez!")
-	
 	private int colorId;
 	
 	@Min(0)

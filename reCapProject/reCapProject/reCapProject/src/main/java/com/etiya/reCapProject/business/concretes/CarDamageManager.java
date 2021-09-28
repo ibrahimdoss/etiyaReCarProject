@@ -2,6 +2,7 @@ package com.etiya.reCapProject.business.concretes;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.etiya.reCapProject.business.abstracts.CarDamageService;
@@ -21,7 +22,8 @@ import com.etiya.reCapProject.entities.requests.carDamageRequest.UpdateCarDamage
 public class CarDamageManager implements CarDamageService{
 	
 	private CarDamageDao carDamageDao;
-
+	
+	@Autowired
 	public CarDamageManager(CarDamageDao carDamageDao) {
 		super();
 		this.carDamageDao = carDamageDao;

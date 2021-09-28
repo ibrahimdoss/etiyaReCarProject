@@ -1,6 +1,8 @@
 package com.etiya.reCapProject.entities.requests.rentalRequest;
 
 
+import java.util.Date;
+
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -15,29 +17,25 @@ import lombok.Setter;
 public class UpdateRentAlRequest {
 	
 	@NotNull(message = "Boş Geçilemez!")
-	
 	private int rentAlId;
 
-	
+	@NotNull(message = "Boş Geçilemez!")	
+	private int carId;
 	
 	@NotNull(message = "Boş Geçilemez!")
+	private int customerId;
 	
-	private String carName;
+	private Date rentDate;
 	
-	private String rentDate;
-	
-	
-	private String returnDate;
+	private Date returnDate;
 	
 	private String takeCity;
 	
 	private String returnCity;
 	
+	private int startKilometer;
+
 	
-	@NotNull(message = "Boş Geçilemez!")	
-	private int carId;
 	
 	
-	@NotNull(message = "Boş Geçilemez!")
-	private int customerId;
 }

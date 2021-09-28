@@ -30,4 +30,7 @@ public class Customer extends ApplicationUser{
 	@JsonIgnore
 	@OneToMany(mappedBy = "customers")
 	private List<RentAl> rentAls;
+	
+	@OneToMany(mappedBy = "customer")
+	private List<Invoice> invoices;
 }

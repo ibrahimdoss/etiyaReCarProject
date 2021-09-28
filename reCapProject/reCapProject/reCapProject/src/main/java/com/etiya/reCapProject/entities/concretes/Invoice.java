@@ -1,6 +1,5 @@
 package com.etiya.reCapProject.entities.concretes;
 
-
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -24,50 +23,45 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="rentals")
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+@Table(name="invoices")
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler","customer"})
 
-public class RentAl {
+public class Invoice {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="rental_id")
-	private int rentAlId;
+	@Column(name="invoice_id")
+	private int invoiceId;
 	
-	/*
-	 * @Column(name="car_id") private int carId;
-	 */
+	@Column(name="invoice_number")
+	private int invoiceNumber;
 	
-	/*
-	 * @Column(name="customer_id") private int customerId;
-	 */
-	
-	@Column(name="rent_date")
+	@Column(name="rental_date")
 	private Date rentDate;
 	
-	@Column(name="return_date")
+	@Column(name="returnrental_date")
 	private Date returnDate;
 	
-	@Column(name="take_city")
-	private String takeCity;
+	@Column(name="invoice_date")
+	private Date invoiceDate;
 	
-	@Column(name="start_kilometer")
-	private int startKilometer;
+	@Column(name="totalrental_day")
+	private Long totalRentalDay;
 	
-	@Column(name="return_city")
-	private String returnCity;
+	@Column(name="rental_amount")
+	private Double rentalAmount;
+	
 	
 	@ManyToOne
 	@JoinColumn(name="customer_id")
-	private Customer customers;
-	
-	@ManyToOne
-	@JoinColumn(name="car_id")
-	private Car car;
+	private Customer customer;
 	
 	@JsonIgnore
 	@OneToOne
-	@JoinColumn(name="invoice_id")
-	private Invoice invoice;
+	@JoinColumn(name="rental_id")
+	private RentAl rentAl;
+	
+	
+	
 	
 }
