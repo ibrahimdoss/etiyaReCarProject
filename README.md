@@ -4,7 +4,7 @@
 ![](https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
 ![](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 
-## SOLID Principles Followed
+## SOLID 
 
 ![download](https://user-images.githubusercontent.com/77414874/114268077-e9a0a500-9a07-11eb-88c7-731afadb3b05.jpg)
 
