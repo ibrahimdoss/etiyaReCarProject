@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.validation.annotation.Validated;
 
+import com.etiya.reCapProject.entities.dtos.AdditionalServiceDto;
 import com.etiya.reCapProject.entities.dtos.CreditCardDto;
 import com.etiya.reCapProject.entities.requests.posRequest.PosRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -62,5 +63,6 @@ public class AddRentAlRequest {
 	
 	//private List<Integer> additionalId;
 	
+	private List<AdditionalServiceDto> additionalServiceDtos;
 
 }

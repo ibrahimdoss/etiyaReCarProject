@@ -10,8 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -78,8 +79,13 @@ public class RentAl {
 	@OneToOne
 	@JoinColumn(name="invoice_id")
 	private Invoice invoice;
+
 	
-	
+	@ManyToMany
+	@JoinTable(name = "rentals_additional_services", 
+	joinColumns = @JoinColumn(name = "rent_al_rental_id"),  
+	inverseJoinColumns = @JoinColumn(name = "additional_services_additional_id"))
+	private List<AdditionalService> additionalServices;
 	//@OneToMany
 	//private List<AdditionalService> additionalServices;
 	

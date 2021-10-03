@@ -43,7 +43,7 @@ public class RentAlsControllers {
 	}
 	
 	@PostMapping("/addrentalforcorporatecustomer")
-	public Result addRentalForCorporateCustomer(@Valid @RequestBody AddRentAlRequest addRentalRequest) {
+	public Result addRentalForCorporateCustomer( @RequestBody AddRentAlRequest addRentalRequest) {
 		return this.rentAlService.addRentalForCorporateCustomer(addRentalRequest);
 	}
 	

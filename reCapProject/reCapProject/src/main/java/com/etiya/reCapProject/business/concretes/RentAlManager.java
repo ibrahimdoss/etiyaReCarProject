@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.etiya.reCapProject.business.abstracts.AdditionalServicesService;
 import com.etiya.reCapProject.business.abstracts.CarService;
 import com.etiya.reCapProject.business.abstracts.CreatePosService;
 import com.etiya.reCapProject.business.abstracts.CreditCardService;
@@ -31,6 +32,7 @@ import com.etiya.reCapProject.entities.concretes.Care;
 import com.etiya.reCapProject.entities.concretes.CorporateCustomer;
 import com.etiya.reCapProject.entities.concretes.IndividualCustomer;
 import com.etiya.reCapProject.entities.concretes.RentAl;
+import com.etiya.reCapProject.entities.dtos.AdditionalServiceDto;
 import com.etiya.reCapProject.entities.dtos.CreditCardDto;
 import com.etiya.reCapProject.entities.requests.creditCardRequest.AddCreditCardRequest;
 import com.etiya.reCapProject.entities.requests.posRequest.PosRequest;
@@ -51,6 +53,7 @@ public class RentAlManager implements RentAlService{
 	private CreatePosService createPosService;
 	private CarService carService;
 	private AdditionalServiceDao additionalServiceDao;
+	private AdditionalServicesService additionalServicesService;
 	
 	
 	
@@ -62,6 +65,7 @@ public class RentAlManager implements RentAlService{
 			CareDao careDao,
 			AdditionalServiceDao additionalServiceDao,
 			CarService carService,
+			AdditionalServicesService additionalServicesService,
 			CustomerFindeksPointCheckService checkService) {
 		super();
 		this.rentAlDao = rentAlDao;
@@ -74,6 +78,7 @@ public class RentAlManager implements RentAlService{
 		this.creditCardService=creditCardService;
 		this.createPosService= createPosService;
 		this.carService=carService;
+		this.additionalServicesService=additionalServicesService;
 	}
 
 	@Override
@@ -110,6 +115,8 @@ public class RentAlManager implements RentAlService{
 		rentAl.setEndKilometer(addRentAlRequest.getEndKilometer());
 		rentAl.setReturnCity(addRentAlRequest.getReturnCity());
 		rentAl.setAmount(checkCalculateTotalAmountOfRental(addRentAlRequest));
+
+		//rentAl.setAmount(checkCalculateTotalAmountOfRental(addRentAlRequest));
 
 		car.setKilometer(addRentAlRequest.getEndKilometer()+car.getKilometer());
 		
@@ -200,6 +207,7 @@ public class RentAlManager implements RentAlService{
 		rentAl.setStartKilometer(car.getKilometer());
 		rentAl.setEndKilometer(addRentAlRequest.getEndKilometer());
 		rentAl.setAmount(checkCalculateTotalAmountOfRental(addRentAlRequest));
+		//rentAl.setAmount(checkCalculateTotalAmountOfRental(addRentAlRequest));
 		
 		
 		//kiralamadan önceki başlangıç şehiri.
@@ -212,6 +220,7 @@ public class RentAlManager implements RentAlService{
 		rentAl.setCustomers(corporateCustomer);
 		
 
+	
 		
 		this.rentAlDao.save(rentAl);
 		
@@ -369,24 +378,38 @@ public class RentAlManager implements RentAlService{
 		return totalPrice;
 	}
 	
-	private double checkCalculateTotalAmountOfRental(AddRentAlRequest addRentAlRequest) {
-		
-		Car car= this.carDao.getById(addRentAlRequest.getCarId());
-		
-		long rentDays= ChronoUnit.DAYS.between(addRentAlRequest.getRentDate().toInstant(), 
-				addRentAlRequest.getReturnDate().toInstant());
 	
-		double amount= rentDays*car.getDailyPrice();
-		
-		
-		if(addRentAlRequest.getReturnCity().equals(addRentAlRequest.getTakeCity())== false) {
-			amount +=500;
-		
-		}
-		
-		return amount;
-	
-	}
+	  private double checkCalculateTotalAmountOfRental(AddRentAlRequest addRentAlRequest) {
+	  
+	  Car car= this.carDao.getById(addRentAlRequest.getCarId());
+	  
+	  long rentDays=  ChronoUnit.DAYS.between(addRentAlRequest.getRentDate().toInstant(),
+	  addRentAlRequest.getReturnDate().toInstant());
+	  
+	  double amount= rentDays*car.getDailyPrice();
+	  
+	  
+	  if(addRentAlRequest.getReturnCity().equals(addRentAlRequest.getTakeCity())== false) { 
+		  amount +=500;
+	  
+	  }
+	  
+	  List<AdditionalServiceDto> additionalServiceDtos = addRentAlRequest.getAdditionalServiceDtos();
 
+      for (AdditionalServiceDto additionalServiceDto : additionalServiceDtos) {
+
+          AdditionalService additionalService=this.additionalServicesService.getById(additionalServiceDto.getAdditionalId()).getData();
+
+          double additionalServiceTotalPrice = additionalService.getAdditionalPrice() * rentDays;
+
+          amount += additionalServiceTotalPrice;
+      }
+
+      return (double) amount;
+  }
+
+	
+	 
+	
 }
 		
