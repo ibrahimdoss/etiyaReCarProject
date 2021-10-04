@@ -5,6 +5,8 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,8 +22,7 @@ public class UpdateCarImagesRequest {
 	private int id;
 	
 	
-	
-	@NotNull(message = "Boş Geçilemez!")
+	@JsonIgnore
 	MultipartFile file;
 
 	

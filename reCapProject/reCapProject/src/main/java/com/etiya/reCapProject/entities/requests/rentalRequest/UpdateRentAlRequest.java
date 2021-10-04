@@ -2,9 +2,11 @@ package com.etiya.reCapProject.entities.requests.rentalRequest;
 
 
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import com.etiya.reCapProject.entities.dtos.AdditionalServiceDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -31,14 +33,15 @@ public class UpdateRentAlRequest {
 	
 	private Date returnDate;
 	
-	@JsonIgnore
-	private String takeCity;
+
 	
 	private String returnCity;
 	
-	private int startKilometer;
 	
 	private int endKilometer;
+	
+	private List<AdditionalServiceDto> additionalServiceDtos;
+
 	
 	@JsonIgnore
 	private double amount;

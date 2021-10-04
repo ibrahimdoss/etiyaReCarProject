@@ -59,7 +59,10 @@ public class InvoiceManager implements InvoiceService{
 	@Override
 	public Result add(AddInvoiceRequest addInvoiceRequest) {
 		
-
+		long totalRentDay= (ChronoUnit.DAYS.between(
+						this.rentAlDao.getById(addInvoiceRequest.getRentAlId()).getRentDate().toInstant(),
+						this.rentAlDao.getById(addInvoiceRequest.getRentAlId()).getReturnDate().toInstant()));
+			
 
 		
 		Customer customer = new Customer();
@@ -71,15 +74,12 @@ public class InvoiceManager implements InvoiceService{
 		Invoice invoice= new Invoice();
 		invoice.setInvoiceNumber(addInvoiceRequest.getInvoiceNumber());
 		invoice.setInvoiceDate(addInvoiceRequest.getInvoiceDate());
-		invoice.setRentalAmount(addInvoiceRequest.getRentalAmount());
+		invoice.setRentalAmount(totalRentDay*this.rentAlDao.getById(addInvoiceRequest.getRentAlId()).getCar().getDailyPrice());
 		
 		invoice.setRentDate(this.rentAlDao.getById(addInvoiceRequest.getRentAlId()).getRentDate());
 		invoice.setReturnDate(this.rentAlDao.getById(addInvoiceRequest.getRentAlId()).getReturnDate());
 
-		invoice.setTotalRentalDay(ChronoUnit.DAYS.between(
-				this.rentAlDao.getById(addInvoiceRequest.getRentAlId()).getRentDate().toInstant(),
-				this.rentAlDao.getById(addInvoiceRequest.getRentAlId()).getReturnDate().toInstant()));
-			
+		
 		
 
 		invoice.setCustomer(customer);

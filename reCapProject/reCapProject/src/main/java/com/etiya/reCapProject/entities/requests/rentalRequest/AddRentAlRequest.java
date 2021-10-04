@@ -51,6 +51,8 @@ public class AddRentAlRequest {
 
 
 	private boolean saveCreditCard;
+	
+	
 
 	
 	@NotNull(message = "Boş Geçilemez!")
