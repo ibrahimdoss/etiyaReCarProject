@@ -17,7 +17,5 @@ public class DeleteCarImagesRequest {
 	private int id;
 	
 	
-	@NotNull(message = "Boş Geçilemez!")
-	private int carId;
 
 }

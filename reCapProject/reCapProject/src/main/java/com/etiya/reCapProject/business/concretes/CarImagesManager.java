@@ -1,7 +1,5 @@
 package com.etiya.reCapProject.business.concretes;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.etiya.reCapProject.business.abstracts.CarImagesService;
 import com.etiya.reCapProject.business.constants.Messages;
 import com.etiya.reCapProject.business.paths.Paths;
+import com.etiya.reCapProject.core.fileHelper.FileHelperService;
 import com.etiya.reCapProject.core.utilities.businnes.BusinnesRules;
 import com.etiya.reCapProject.core.utilities.results.DataResult;
 import com.etiya.reCapProject.core.utilities.results.ErrorDataResult;
@@ -36,12 +35,14 @@ public class CarImagesManager implements CarImagesService{
 	
 	private CarImageDao carImageDao;
 	private CarDao carDao;
+	private FileHelperService fileHelperService;
 	
 	@Autowired
-	public CarImagesManager(CarImageDao carImageDao,CarDao carDao) {
+	public CarImagesManager(CarImageDao carImageDao,CarDao carDao,FileHelperService fileHelperService) {
 		super();
 		this.carImageDao = carImageDao;
 		this.carDao=carDao;
+		this.fileHelperService=fileHelperService;
 	}
 	
 	
@@ -56,26 +57,27 @@ public class CarImagesManager implements CarImagesService{
 	@Override
 	public Result add(AddCarImagesRequest addCarImagesRequest) throws IOException {
 		
-		var result= BusinnesRules.run(checkImageIsNull(addCarImagesRequest.getFile()),checkIfCarImagesAddController(addCarImagesRequest.getCarId(), 5),checkImageType(addCarImagesRequest.getFile()));
+		var result= BusinnesRules.run(checkImageIsNull(addCarImagesRequest.getFile())
+				,checkIfCarImagesAddController(addCarImagesRequest.getCarId(), 5)
+				,checkImageType(addCarImagesRequest.getFile()));
 		if (result!=null) {
 			return result;
 		}
 		
+		CarImages carImages = new CarImages();
+
 		Date dateNow= new java.sql.Date(new java.util.Date().getTime());
 		String randomImageName=UUID.randomUUID().toString();
-		
-		File myFiles= new File(Paths.CAR_IMAGES_PATH+randomImageName+"."+addCarImagesRequest.getFile().getContentType().substring(addCarImagesRequest.getFile().getContentType().indexOf("/")+1));
-		myFiles.createNewFile();
-		FileOutputStream fileoutputstream=new FileOutputStream(myFiles);
-		fileoutputstream.write(addCarImagesRequest.getFile().getBytes());
-		fileoutputstream.close();
+
+		fileHelperService.addCarImagePathName(addCarImagesRequest, randomImageName );
+	
 		
 		Car car = this.carDao.getById(addCarImagesRequest.getCarId());
+		car.setCarId(addCarImagesRequest.getCarId());
 		
-		CarImages carImages = new CarImages();
-		carImages.setImagePath(myFiles.toString());
 		carImages.setDate(dateNow);
 		carImages.setCar(car);
+		carImages.setImagePath(randomImageName);
 		
 		this.carImageDao.save(carImages);
 		return new SuccessResult( Messages.Add);
@@ -88,25 +90,21 @@ public class CarImagesManager implements CarImagesService{
 			return result;
 		}
 		
+		
+		CarImages carImages = this.carImageDao.getById(updateCarImagesRequest.getId());
 		@SuppressWarnings("unused")
 		Date dateNow= new java.sql.Date(new java.util.Date().getTime());
 		String randomImageName=UUID.randomUUID().toString();
 		
-		File myFiles= new File(Paths.CAR_IMAGES_PATH+randomImageName+"."+updateCarImagesRequest.getFile().getContentType().substring(updateCarImagesRequest.getFile().getContentType().indexOf("/")+1));
-		myFiles.createNewFile();
-		FileOutputStream fileoutputstream=new FileOutputStream(myFiles);
-		fileoutputstream.write(updateCarImagesRequest.getFile().getBytes());
-		fileoutputstream.close();
+		fileHelperService.updateCarImagePathName(updateCarImagesRequest, randomImageName);
 		
 		Car car = this.carDao.getById(updateCarImagesRequest.getCarId());
 		car.setCarId(updateCarImagesRequest.getCarId());
 		
-		CarImages carImages = this.carImageDao.getById(updateCarImagesRequest.getId());
-		carImages.setId(updateCarImagesRequest.getId());
-		carImages.setImagePath(myFiles.toString());
-		
+		carImages.setId(updateCarImagesRequest.getId());		
 		carImages.setCar(car);
 		carImages.setDate(dateNow);
+		carImages.setImagePath(randomImageName);
 		
 		this.carImageDao.save(carImages);
 		return new SuccessResult(Messages.Update);
@@ -117,13 +115,11 @@ public class CarImagesManager implements CarImagesService{
 	@Override
 	public Result delete(DeleteCarImagesRequest deleteCarImagesRequest) {
 		
-		Car car = new Car();
-		car.setCarId(deleteCarImagesRequest.getCarId());
+		
 		
 		CarImages carImages = new CarImages();
 		carImages.setId(deleteCarImagesRequest.getId());
 		
-		carImages.setCar(car);
 
 		
 		this.carImageDao.delete(carImages);
@@ -131,6 +127,7 @@ public class CarImagesManager implements CarImagesService{
 	}
 	
 	
+	//Arabanın 5'ten fazla resmi var mı kontrolü
 	private Result checkIfCarImagesAddController(int carId, int limit) {
 		
 		if (this.carImageDao.countByCar_CarId(carId)>limit) {
@@ -162,6 +159,7 @@ public class CarImagesManager implements CarImagesService{
 	}
 	
 	
+	//Eğer arabanın resmi yoksa default resim atama
 	private DataResult<List<CarImages>> returnCarImageWithDefaultImageIfCarImageIsNull(int carId) {
 
 		if (this.carImageDao.existsByCar_CarId(carId)) {
@@ -178,6 +176,7 @@ public class CarImagesManager implements CarImagesService{
 
 	}
 	
+	//Arabanın resmi boş mu yada format yanlış mı kontrolü
 	private Result checkImageType(MultipartFile file) {
 		if(checkImageIsNull(file).isSuccess()) {
 			if(!file.getContentType().substring(file.getContentType().indexOf("/")+1).equals("jpeg")
