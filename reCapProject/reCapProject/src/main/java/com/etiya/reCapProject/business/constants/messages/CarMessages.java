@@ -13,7 +13,7 @@ public class CarMessages {
      public static final String GetCarsByColorId = "Renk Id'sine göre araçlar listelendi.";
      public static final String DetailsList= " Detaylar Listelendi.";
      public static final String GetCarsInCare = "Bakımdaki araçlar listelendi.";
-     public static final String GetCarsAreNotInCare = "Bakımda olmayan araçlar listelendi.";
+     public static final String GetCarsAreNotInCare = "Bakımda olan araçlar listelendi.";
      public static final String ChangeCarSituation = "Araba müsait duruma getirildi.";
      public static final String GetCarsWithImages = "Araba resimleri ile beraber listelendi";
 }

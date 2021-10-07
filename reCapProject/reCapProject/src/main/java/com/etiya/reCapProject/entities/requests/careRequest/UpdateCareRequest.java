@@ -1,5 +1,7 @@
 package com.etiya.reCapProject.entities.requests.careRequest;
 
+import java.util.Date;
+
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -22,10 +24,10 @@ public class UpdateCareRequest {
 	
 	
 	@NotNull(message = "Boş Geçilemez!")
-	private String startDate;
+	private Date startDate;
 	
 	@NotNull(message = "Boş Geçilemez!")
-	private String finishDate;
+	private Date finishDate;
 	
 	@NotNull(message = "Boş Geçilemez!")
 	private int carId;

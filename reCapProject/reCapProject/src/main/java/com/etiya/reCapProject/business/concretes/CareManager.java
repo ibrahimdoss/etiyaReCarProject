@@ -87,7 +87,6 @@ public class CareManager implements CareService {
 		care.setCareId(addCareRequest.getCareId());
 		care.setLocation(addCareRequest.getLocation());
 		care.setStartDate(addCareRequest.getStartDate());
-		care.setFinishDate(addCareRequest.getFinishDate());
 		
 		care.setCar(car);
 		
@@ -123,13 +122,12 @@ public class CareManager implements CareService {
 	@Override
 	public Result delete(DeleteCareRequest deleteCareRequest) {
 		
-		Car car = new Car();
-		car.setCarId(deleteCareRequest.getCarId());
+		
 		
 		Care care = new Care();
 		care.setCareId(deleteCareRequest.getCareId());
 		
-		care.setCar(car);
+	
 		
 		this.careDao.delete(care);
 		return new SuccessResult(CarCareMessages.Delete);

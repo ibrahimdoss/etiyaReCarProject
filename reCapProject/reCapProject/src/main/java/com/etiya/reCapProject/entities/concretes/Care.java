@@ -1,5 +1,7 @@
 package com.etiya.reCapProject.entities.concretes;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,10 +36,10 @@ public class Care {
 	
 	
 	@Column(name="start_date")
-	private String startDate;
+	private Date startDate;
 	
 	@Column(name="finish_date")
-	private String finishDate;
+	private Date finishDate;
 	
 	
 	@ManyToOne

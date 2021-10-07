@@ -15,12 +15,10 @@ import lombok.Setter;
 public class DeleteCarRequest {
 	
 	
-	@NotNull(message = "Boş Geçilemez!")
-	private int brandId;
+
 	
 	
-	@NotNull(message = "Boş Geçilemez!")
-	private int colorId;
+	
 	
 	
 	@NotNull(message = "Boş Geçilemez!")

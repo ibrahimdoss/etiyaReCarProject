@@ -125,6 +125,7 @@ public class CarManager implements CarService {
 		car.setCarName(addCarRequest.getCarName());
 		car.setCarCare(addCarRequest.isCarCare());
 		car.setModelYear(addCarRequest.getModelYear());
+		car.setKilometer(addCarRequest.getKilometer());
 		car.setDailyPrice(addCarRequest.getDailyPrice());
 		car.setDescription(addCarRequest.getDescription());
 		car.setFindexPoint(addCarRequest.getFindexPoint());
@@ -152,13 +153,11 @@ public class CarManager implements CarService {
 		car.setCarName(updateCarRequest.getCarName());
 		car.setCarCare(updateCarRequest.isCarCare());
 		car.setModelYear(updateCarRequest.getModelYear());
+		car.setKilometer(updateCarRequest.getKilometer());
 		car.setDailyPrice(updateCarRequest.getDailyPrice());
 		car.setDescription(updateCarRequest.getDescription());
 		car.setFindexPoint(updateCarRequest.getFindexPoint());
 		car.setCity(updateCarRequest.getCity());
-
-
-		
 
 		car.setBrand(brand);
 		car.setColor(color);
@@ -172,18 +171,13 @@ public class CarManager implements CarService {
 	@Override
 	public Result delete(DeleteCarRequest deleteCarRequest) {
 		
-		Brand brand = new Brand();
-		brand.setBrandId(deleteCarRequest.getBrandId());
 		
-		Color color= new Color();
-		color.setColorId(deleteCarRequest.getColorId());
 		
 
 		Car car= new Car();
 		car.setCarId(deleteCarRequest.getCarId());
 
-		car.setBrand(brand);
-		car.setColor(color);
+
 		
 		this.carDao.delete(car);
 		return new SuccessResult(CarMessages.Delete);

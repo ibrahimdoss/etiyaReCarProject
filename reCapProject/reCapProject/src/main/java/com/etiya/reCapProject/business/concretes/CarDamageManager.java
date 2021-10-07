@@ -101,8 +101,7 @@ public class CarDamageManager implements CarDamageService {
 
 	@Override
 	public Result delete(DeleteCarDamageRequest deleteCarDamageRequest) {
-		Car car = new Car();
-		car.setCarId(deleteCarDamageRequest.getCarId());
+		
 
 		CarDamage carDamage = this.carDamageDao.getById(deleteCarDamageRequest.getDamageId());
 		carDamage.setDamageId(deleteCarDamageRequest.getDamageId());

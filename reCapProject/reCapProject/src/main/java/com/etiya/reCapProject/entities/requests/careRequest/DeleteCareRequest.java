@@ -13,8 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DeleteCareRequest {
 	
-	@NotNull(message = "Boş Geçilemez!")
-	private int carId;
+	
 
 	@NotNull(message = "Boş Geçilemez!")
 	private int careId;

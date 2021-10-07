@@ -16,8 +16,7 @@ public class DeleteCarDamageRequest {
 	@NotNull(message = "Boş Geçilemez!")
 	private int damageId;
 	
-	@NotNull(message = "Boş Geçilemez!")
-	private int carId;
+
 
 
 }

@@ -223,6 +223,9 @@ public class RentAlManager implements RentAlService{
 
 		CorporateCustomer corporateCustomer = new CorporateCustomer();
 		corporateCustomer.setId(addRentAlRequest.getCustomerId());
+		
+		RentAl rentAl = new RentAl();
+
 
 		var result = BusinnesRules.run(checkCarIsSubmit(addRentAlRequest.getCarId()),
 				checkCorporateCustomerFindexPoint(this.corporateCustomerDao.getById(addRentAlRequest.getCustomerId()),
@@ -234,7 +237,6 @@ public class RentAlManager implements RentAlService{
 			return result;
 		}
 
-		RentAl rentAl = new RentAl();
 		rentAl.setRentDate(addRentAlRequest.getRentDate());
 		rentAl.setReturnDate(addRentAlRequest.getReturnDate());
 		rentAl.setStartKilometer(car.getKilometer());

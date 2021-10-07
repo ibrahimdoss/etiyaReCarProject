@@ -19,10 +19,7 @@ public class DeleteRentAlRequest {
 	private int rentAlId;
 
 
-	@NotNull(message = "Boş Geçilemez!")
-	private int customerId;
 	
-	@NotBlank
-	@NotNull(message = "Boş Geçilemez!")
-	private int carId;
+	
+	
 }
