@@ -5,13 +5,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.etiya.reCapProject.business.abstracts.CarImagesService;
 import com.etiya.reCapProject.business.constants.Messages;
+import com.etiya.reCapProject.business.constants.messages.CarImagesMessages;
 import com.etiya.reCapProject.business.paths.Paths;
 import com.etiya.reCapProject.core.fileHelper.FileHelperService;
 import com.etiya.reCapProject.core.utilities.businnes.BusinnesRules;
@@ -25,6 +28,7 @@ import com.etiya.reCapProject.dataAccess.abstracts.CarDao;
 import com.etiya.reCapProject.dataAccess.abstracts.CarImageDao;
 import com.etiya.reCapProject.entities.concretes.Car;
 import com.etiya.reCapProject.entities.concretes.CarImages;
+import com.etiya.reCapProject.entities.dtos.CarImageDto;
 import com.etiya.reCapProject.entities.requests.carImageRequest.AddCarImagesRequest;
 import com.etiya.reCapProject.entities.requests.carImageRequest.DeleteCarImagesRequest;
 import com.etiya.reCapProject.entities.requests.carImageRequest.UpdateCarImagesRequest;
@@ -36,23 +40,35 @@ public class CarImagesManager implements CarImagesService{
 	private CarImageDao carImageDao;
 	private CarDao carDao;
 	private FileHelperService fileHelperService;
+	private ModelMapper modelMapper;
 	
 	@Autowired
-	public CarImagesManager(CarImageDao carImageDao,CarDao carDao,FileHelperService fileHelperService) {
+	public CarImagesManager(CarImageDao carImageDao,CarDao carDao
+			,FileHelperService fileHelperService,
+			 ModelMapper modelMapper) {
 		super();
 		this.carImageDao = carImageDao;
 		this.carDao=carDao;
 		this.fileHelperService=fileHelperService;
+		this.modelMapper=modelMapper;
 	}
 	
 	
 	
 	@Override
 	public DataResult<List<CarImages>> getAll() {
-		return new SuccessDataResult<List<CarImages>>(this.carImageDao.findAll(),Messages.List);
+		return new SuccessDataResult<List<CarImages>>(this.carImageDao.findAll(),CarImagesMessages.GetAll);
 	}
 
-	
+	@Override
+	public DataResult<List<CarImageDto>> getCarImagesDetail() {
+		List<CarImages> carImagess = this.carImageDao.findAll();
+
+		List<CarImageDto> carImageDto = carImagess.stream()
+				.map(carImages -> modelMapper.map(carImages, CarImageDto.class)).collect(Collectors.toList());
+
+		return new SuccessDataResult<List<CarImageDto>>(carImageDto,CarImagesMessages.GetAll);
+	}
 
 	@Override
 	public Result add(AddCarImagesRequest addCarImagesRequest) throws IOException {
@@ -80,7 +96,7 @@ public class CarImagesManager implements CarImagesService{
 		carImages.setImagePath(randomImageName);
 		
 		this.carImageDao.save(carImages);
-		return new SuccessResult( Messages.Add);
+		return new SuccessResult( CarImagesMessages.Add);
 	}
 
 	@Override
@@ -107,7 +123,7 @@ public class CarImagesManager implements CarImagesService{
 		carImages.setImagePath(randomImageName);
 		
 		this.carImageDao.save(carImages);
-		return new SuccessResult(Messages.Update);
+		return new SuccessResult(CarImagesMessages.Update);
 	}
 	
 	
@@ -123,7 +139,7 @@ public class CarImagesManager implements CarImagesService{
 
 		
 		this.carImageDao.delete(carImages);
-		return new SuccessResult(Messages.Delete);
+		return new SuccessResult(CarImagesMessages.Delete);
 	}
 	
 	
@@ -131,21 +147,16 @@ public class CarImagesManager implements CarImagesService{
 	private Result checkIfCarImagesAddController(int carId, int limit) {
 		
 		if (this.carImageDao.countByCar_CarId(carId)>limit) {
-			return new ErrorResult(Messages.ImageError);
+			return new ErrorResult(CarImagesMessages.ErrorIfCarHasMoreImages);
 		}
 		
 		return new SuccessResult();
 	}
 	
 	
-	
-
-	
-
-	
 	private Result checkImageIsNull(MultipartFile file) {
 		if (file == null) {
-			return new ErrorResult(Messages.ImageNullError);
+			return new ErrorResult(CarImagesMessages.ErrorCarImageNulls);
 		}
 		return new SuccessResult();
 	}
@@ -172,7 +183,7 @@ public class CarImagesManager implements CarImagesService{
 
 		carImages.add(carImage);
 
-		return new SuccessDataResult<List<CarImages>>(carImages, Messages.DefaultMsg);
+		return new SuccessDataResult<List<CarImages>>(carImages, CarImagesMessages.ErrorCarImageNull);
 
 	}
 	
@@ -183,13 +194,17 @@ public class CarImagesManager implements CarImagesService{
 				&& !file.getContentType().toString().substring(file.getContentType().indexOf("/") + 1).equals("jpg")
 				&& !file.getContentType().toString().substring(file.getContentType().indexOf("/") + 1).equals("png")){
 				System.out.println(file.getContentType());
-				return new ErrorResult(Messages.ImageTypeError);
+				return new ErrorResult(CarImagesMessages.ErrorCarImageType);
 
 				}
 	}
 		return new SuccessResult();
 
 }
+
+
+
+	
 	
 }
 

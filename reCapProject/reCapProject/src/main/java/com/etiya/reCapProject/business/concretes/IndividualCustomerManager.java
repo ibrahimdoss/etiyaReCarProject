@@ -1,18 +1,21 @@
 package com.etiya.reCapProject.business.concretes;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.etiya.reCapProject.business.abstracts.IndividualCustomerService;
-import com.etiya.reCapProject.business.constants.Messages;
+import com.etiya.reCapProject.business.constants.messages.IndividualCustomerMessages;
 import com.etiya.reCapProject.core.utilities.results.DataResult;
 import com.etiya.reCapProject.core.utilities.results.Result;
 import com.etiya.reCapProject.core.utilities.results.SuccessDataResult;
 import com.etiya.reCapProject.core.utilities.results.SuccessResult;
 import com.etiya.reCapProject.dataAccess.abstracts.IndividualCustomerDao;
 import com.etiya.reCapProject.entities.concretes.IndividualCustomer;
+import com.etiya.reCapProject.entities.dtos.IndividualCustomerDto;
 import com.etiya.reCapProject.entities.requests.individualCustomerRequest.AddIndividualCustomerRequest;
 import com.etiya.reCapProject.entities.requests.individualCustomerRequest.DeleteIndividualCustomerRequest;
 import com.etiya.reCapProject.entities.requests.individualCustomerRequest.UpdateIndividualCustomerRequest;
@@ -21,11 +24,13 @@ import com.etiya.reCapProject.entities.requests.individualCustomerRequest.Update
 public class IndividualCustomerManager implements IndividualCustomerService {
 	
 	private IndividualCustomerDao individualCustomerDao;
+	private ModelMapper modelMapper;
 	
 	@Autowired
-	public IndividualCustomerManager(IndividualCustomerDao individualCustomerDao) {
+	public IndividualCustomerManager(IndividualCustomerDao individualCustomerDao,ModelMapper modelMapper) {
 		super();
 		this.individualCustomerDao = individualCustomerDao;
+		this.modelMapper=modelMapper;
 	}
 
 	@Override
@@ -38,7 +43,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 		individualCustomer.setPassword(addIndividualCustomerRequest.getPassword());
 		individualCustomer.setIdentityNumber(addIndividualCustomerRequest.getIdentityNumber());
 		this.individualCustomerDao.save(individualCustomer);
-		return new SuccessResult(Messages.Add);
+		return new SuccessResult(IndividualCustomerMessages.Add);
 	}
 
 	@Override
@@ -54,7 +59,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 		individualCustomer.setPassword(updateIndividualCustomerRequest.getPassword());
 		individualCustomer.setIdentityNumber(updateIndividualCustomerRequest.getIdentityNumber());
 		this.individualCustomerDao.save(individualCustomer);
-		return new SuccessResult(Messages.Update);
+		return new SuccessResult(IndividualCustomerMessages.Update);
 	}
 
 	@Override
@@ -66,13 +71,24 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 				(deleteIndividualCustomerRequest.getIdentityNumber()).getId());
 		
 		this.individualCustomerDao.deleteById(individualCustomer.getId());
-		return new SuccessResult(Messages.Delete);
+		return new SuccessResult(IndividualCustomerMessages.Delete);
 		
 	}
 
 	@Override
-	public DataResult<List<IndividualCustomer>> getAll() {
-		return new SuccessDataResult<List<IndividualCustomer>>(this.individualCustomerDao.findAll(),Messages.List);
+	public DataResult<List<IndividualCustomerDto>> getAll() {
+		List<IndividualCustomer> individualCustomers= this.individualCustomerDao.findAll();
+		List<IndividualCustomerDto> individualCustomerDtos= individualCustomers.stream()
+				.map(individualCustomer->modelMapper.map(individualCustomer, IndividualCustomerDto.class))
+				.collect(Collectors.toList());
+		return new SuccessDataResult<List<IndividualCustomerDto>>(individualCustomerDtos,IndividualCustomerMessages.GetAll);
+	}
+
+	@Override
+	public DataResult<IndividualCustomerDto> getById(int id) {
+		IndividualCustomer individualCustomer = this.individualCustomerDao.getById(id);
+		IndividualCustomerDto individualCustomerDto=modelMapper.map(individualCustomer, IndividualCustomerDto.class);
+		return new SuccessDataResult<IndividualCustomerDto>(individualCustomerDto,IndividualCustomerMessages.GetById);
 	}
 	
 	

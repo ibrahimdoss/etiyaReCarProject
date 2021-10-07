@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.etiya.reCapProject.business.abstracts.CareService;
 import com.etiya.reCapProject.core.utilities.results.DataResult;
 import com.etiya.reCapProject.core.utilities.results.Result;
-import com.etiya.reCapProject.entities.concretes.Care;
+import com.etiya.reCapProject.entities.dtos.CarCareDto;
 import com.etiya.reCapProject.entities.requests.careRequest.AddCareRequest;
 import com.etiya.reCapProject.entities.requests.careRequest.DeleteCareRequest;
 import com.etiya.reCapProject.entities.requests.careRequest.UpdateCareRequest;
@@ -33,9 +33,15 @@ public class CaresControllers {
 	}
 	
 	@GetMapping("/getall")
-	public DataResult<List<Care>> getAll() {
+	public DataResult<List<CarCareDto>> getAll() {
 		return this.careService.getAll();
 	}
+	
+	@GetMapping("/getbyid")
+	public DataResult<CarCareDto> getById(int id) {
+		return this.careService.getById(id);
+	}
+
 	
 	@PostMapping("/careadd")
 	public Result add(@Valid @RequestBody   AddCareRequest addCareRequest) {

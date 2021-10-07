@@ -3,7 +3,6 @@ package com.etiya.reCapProject.business.constants;
 public class Messages {
 	
 		
-		//buraya sabit mesajlarımızı yazacağız.
 
         public static final String REQUIRED = "required";
         public static final String SIZE = "size must be between {min} and {max}";
@@ -17,7 +16,6 @@ public class Messages {
         public static final String Delete= "Deleted";
         public static final String List= "Listed";
         public static final String Listed= " Id Listed";
-        public static final String DetailsList= " Details Listed";
         public static final String RentError= " Vehicle Unable to Deliver";
         public static final String ImageError= " You have exceeded your image upload limit";
         public static final String ImageTypeError= " Photo type is invalid";

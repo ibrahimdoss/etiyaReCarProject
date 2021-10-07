@@ -69,10 +69,6 @@ public class Car {
 	@JoinColumn(name="brand_id")
 	private Brand brand;
 	
-	
-	
-
-	
 	@ManyToOne
 	@JoinColumn(name="color_id")
 	private Color color;

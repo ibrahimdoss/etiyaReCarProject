@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.etiya.reCapProject.business.abstracts.ColorService;
 import com.etiya.reCapProject.core.utilities.results.DataResult;
 import com.etiya.reCapProject.core.utilities.results.Result;
-import com.etiya.reCapProject.entities.concretes.Color;
+import com.etiya.reCapProject.entities.dtos.ColorDto;
 import com.etiya.reCapProject.entities.requests.colorRequest.AddColorRequest;
 import com.etiya.reCapProject.entities.requests.colorRequest.DeleteColorRequest;
 import com.etiya.reCapProject.entities.requests.colorRequest.UpdateColorRequest;
@@ -33,12 +33,12 @@ public class ColorsControllers {
 	}
 	
 	@GetMapping("/getcolorıd")
-	public DataResult<List<Color>> getByColorId(int colorId) {
+	public DataResult<ColorDto> getByColorId(int colorId) {
 		return this.colorService.getByColorId(colorId);
 	}
 	
 	@GetMapping("/getallcolor")
-	public DataResult<List<Color>> getAll() {
+	public DataResult<List<ColorDto>> getAll() {
 		return this.colorService.getAll();
 	}
 	

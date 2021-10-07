@@ -19,6 +19,7 @@ import com.etiya.reCapProject.business.abstracts.InvoiceService;
 import com.etiya.reCapProject.core.utilities.results.DataResult;
 import com.etiya.reCapProject.core.utilities.results.Result;
 import com.etiya.reCapProject.entities.concretes.Invoice;
+import com.etiya.reCapProject.entities.dtos.InvoiceDetailDto;
 import com.etiya.reCapProject.entities.requests.invoiceRequest.AddInvoiceRequest;
 import com.etiya.reCapProject.entities.requests.invoiceRequest.DeleteInvoiceRequest;
 import com.etiya.reCapProject.entities.requests.invoiceRequest.UpdateInvoiceRequest;
@@ -36,14 +37,11 @@ public class InvoicesControllers {
 	}
 	
 	@GetMapping("/getall")
-	public DataResult<List<Invoice>> getAll() {
+	public DataResult<List<InvoiceDetailDto>> getAll() {
 		return this.invoiceService.getAll();
 	}
 	
-	@GetMapping("/getbycustomerid")
-	public DataResult<List<Invoice>> getByCustomerId(int customerId) {
-		return this.invoiceService.getByCustomerId(customerId);
-	}
+	
 	
 	@GetMapping("/getinvoicesbetweendates")
 	public DataResult<List<Invoice>> getInvoicesBetweenTwoDate(@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {

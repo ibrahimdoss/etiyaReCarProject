@@ -18,6 +18,7 @@ import com.etiya.reCapProject.business.abstracts.CarImagesService;
 import com.etiya.reCapProject.core.utilities.results.DataResult;
 import com.etiya.reCapProject.core.utilities.results.Result;
 import com.etiya.reCapProject.entities.concretes.CarImages;
+import com.etiya.reCapProject.entities.dtos.CarImageDto;
 import com.etiya.reCapProject.entities.requests.carImageRequest.AddCarImagesRequest;
 import com.etiya.reCapProject.entities.requests.carImageRequest.DeleteCarImagesRequest;
 import com.etiya.reCapProject.entities.requests.carImageRequest.UpdateCarImagesRequest;
@@ -44,6 +45,12 @@ public class CarImagesControllers {
 	public DataResult<List<CarImages>> getByCar_CarId(int carId) {
 		return this.carImagesService.getCarImagesByCarId(carId);
 	}
+	
+	@GetMapping("/getbycarımagesdetail")
+	public DataResult<List<CarImageDto>> getCarImagesDetail() {
+		return this.carImagesService.getCarImagesDetail();
+	}
+
 	
 	
 	

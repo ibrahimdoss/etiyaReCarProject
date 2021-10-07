@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.etiya.reCapProject.business.abstracts.CarDamageService;
 import com.etiya.reCapProject.core.utilities.results.DataResult;
 import com.etiya.reCapProject.core.utilities.results.Result;
-import com.etiya.reCapProject.entities.concretes.CarDamage;
+import com.etiya.reCapProject.entities.dtos.CarDamageDto;
 import com.etiya.reCapProject.entities.requests.carDamageRequest.AddCarDamageRequest;
 import com.etiya.reCapProject.entities.requests.carDamageRequest.DeleteCarDamageRequest;
 import com.etiya.reCapProject.entities.requests.carDamageRequest.UpdateCarDamageRequest;
@@ -33,9 +33,15 @@ public class CarDamagesControllers {
 	}
 	
 	@GetMapping("/getall")
-	public DataResult<List<CarDamage>> getAll() {
+	public DataResult<List<CarDamageDto>> getAll() {
 		return this.carDamageService.getAll();
 	}
+	
+	@GetMapping("/getbyid")
+	public DataResult<CarDamageDto> getById(int id) {
+		return this.carDamageService.getById(id);
+	}
+
 	
 	@PostMapping("/add")
 	public Result add(@Valid @RequestBody    AddCarDamageRequest addCarDamageRequest) {

@@ -1,12 +1,15 @@
 package com.etiya.reCapProject.business.concretes;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.etiya.reCapProject.business.abstracts.AdditionalServicesService;
 import com.etiya.reCapProject.business.constants.Messages;
+import com.etiya.reCapProject.business.constants.messages.AdditionalServiceMessages;
 import com.etiya.reCapProject.core.utilities.businnes.BusinnesRules;
 import com.etiya.reCapProject.core.utilities.results.DataResult;
 import com.etiya.reCapProject.core.utilities.results.ErrorResult;
@@ -15,6 +18,7 @@ import com.etiya.reCapProject.core.utilities.results.SuccessDataResult;
 import com.etiya.reCapProject.core.utilities.results.SuccessResult;
 import com.etiya.reCapProject.dataAccess.abstracts.AdditionalServiceDao;
 import com.etiya.reCapProject.entities.concretes.AdditionalService;
+import com.etiya.reCapProject.entities.dtos.AdditionalServiceDetailDto;
 import com.etiya.reCapProject.entities.requests.additionalRequest.AddAdditionalServiceRequest;
 import com.etiya.reCapProject.entities.requests.additionalRequest.DeleteAdditionalServiceRequest;
 import com.etiya.reCapProject.entities.requests.additionalRequest.UpdateAdditionalServiceRequest;
@@ -23,21 +27,54 @@ import com.etiya.reCapProject.entities.requests.additionalRequest.UpdateAddition
 public class AdditionalServiceManager implements AdditionalServicesService {
 	
 	private AdditionalServiceDao additionalServiceDao;
+	private ModelMapper modelMapper;
 	
 	@Autowired
-	public AdditionalServiceManager(AdditionalServiceDao additionalServiceDao) {
+	public AdditionalServiceManager(AdditionalServiceDao additionalServiceDao, ModelMapper modelMapper) {
 		super();
 		this.additionalServiceDao = additionalServiceDao;
+		this.modelMapper=modelMapper;
 	}
 
 	@Override
-	public DataResult<List<AdditionalService>> getAll() {
-		return new SuccessDataResult<List<AdditionalService>>(this.additionalServiceDao.findAll(),Messages.List);
+	public DataResult<List<AdditionalServiceDetailDto>> getAll() {
+		
+		List<AdditionalService> additionalServices=this.additionalServiceDao.findAll();
+		
+		List<AdditionalServiceDetailDto>additionalServiceDetailDtos=additionalServices.stream()
+				.map(additionalService->modelMapper
+						.map(additionalService, AdditionalServiceDetailDto.class)).collect(Collectors.toList());
+		
+		return new SuccessDataResult<List<AdditionalServiceDetailDto>>(additionalServiceDetailDtos,AdditionalServiceMessages.GetAll);
+		
 	}
+	
+	@Override
+	public DataResult<List<AdditionalServiceDetailDto>> getByRentalId(int rentalId) {
+		
+		List<AdditionalService> additionalServices=this.additionalServiceDao.getByRentAls_rentAlId(rentalId);
+		
+		List<AdditionalServiceDetailDto>additionalServiceDetailDtos=additionalServices.stream()
+				.map(additionalService-> modelMapper.map(additionalService, AdditionalServiceDetailDto.class))
+				.collect(Collectors.toList());
+		
+		return new SuccessDataResult<List<AdditionalServiceDetailDto>>(additionalServiceDetailDtos,AdditionalServiceMessages.GetById);
+	}
+	
+	
+
 
 	@Override
-	public DataResult<AdditionalService> getById(int id) {
-		return new SuccessDataResult<AdditionalService>(this.additionalServiceDao.getById(id),Messages.Listed);
+	public DataResult<AdditionalServiceDetailDto> getById(int id) {
+		
+		AdditionalService additionalService=this.additionalServiceDao.getById(id);
+		
+		AdditionalServiceDetailDto additionalServiceDetailDto=modelMapper.map(additionalService, AdditionalServiceDetailDto.class);
+		
+		return new SuccessDataResult<AdditionalServiceDetailDto>(additionalServiceDetailDto,AdditionalServiceMessages.GetById);
+		
+		
+		
 	}
 
 	@Override
@@ -54,7 +91,7 @@ public class AdditionalServiceManager implements AdditionalServicesService {
 		additionalService.setAdditionalPrice(addAdditionalServiceRequest.getAdditionalPrice());
 		
 		this.additionalServiceDao.save(additionalService);
-		return new SuccessResult(Messages.Add);
+		return new SuccessResult(AdditionalServiceMessages.Add);
 	}
 
 	@Override
@@ -67,7 +104,7 @@ public class AdditionalServiceManager implements AdditionalServicesService {
 		additionalService.setAdditionalPrice(updateAdditionalServiceRequest.getAdditionalPrice());
 		
 		this.additionalServiceDao.save(additionalService);
-		return new SuccessResult(Messages.Update);
+		return new SuccessResult(AdditionalServiceMessages.Update);
 	}
 
 	@Override
@@ -76,15 +113,19 @@ public class AdditionalServiceManager implements AdditionalServicesService {
 		additionalService.setAdditionalId(deleteAdditionalServiceRequest.getAdditionalId());
 		
 		this.additionalServiceDao.delete(additionalService);
-		return new SuccessResult(Messages.Delete);
+		return new SuccessResult(AdditionalServiceMessages.Delete);
 	}
 	
+	//Aynı isimde hizmet var mı yok mu kontrol methodu
 	private Result  checkAddionalServiceNameDuplication(String additionalServiceName) {
 		if (this.additionalServiceDao.existsAdditionalServiceByadditionalName(additionalServiceName)) {
 			return new ErrorResult(Messages.additionalError);
 		}
 		return new SuccessResult();
 	}
+
+	
+	
 
 	
 }

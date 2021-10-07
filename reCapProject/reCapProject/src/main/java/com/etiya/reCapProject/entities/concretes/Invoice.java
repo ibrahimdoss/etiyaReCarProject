@@ -57,10 +57,10 @@ public class Invoice {
 	@JoinColumn(name="customer_id")
 	private Customer customer;
 	
-	@JsonIgnore
 	@OneToOne
+	@JsonIgnore
 	@JoinColumn(name="rental_id")
-	private RentAl rentAl;
+	private RentAl rentAls;
 	
 	
 	

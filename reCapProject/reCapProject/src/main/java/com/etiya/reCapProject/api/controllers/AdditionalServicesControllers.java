@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.etiya.reCapProject.business.abstracts.AdditionalServicesService;
 import com.etiya.reCapProject.core.utilities.results.DataResult;
 import com.etiya.reCapProject.core.utilities.results.Result;
-import com.etiya.reCapProject.entities.concretes.AdditionalService;
+import com.etiya.reCapProject.entities.dtos.AdditionalServiceDetailDto;
 import com.etiya.reCapProject.entities.requests.additionalRequest.AddAdditionalServiceRequest;
 import com.etiya.reCapProject.entities.requests.additionalRequest.DeleteAdditionalServiceRequest;
 import com.etiya.reCapProject.entities.requests.additionalRequest.UpdateAdditionalServiceRequest;
@@ -34,12 +34,12 @@ public class AdditionalServicesControllers {
 	
 	
 	@GetMapping("/getall")
-	public DataResult<List<AdditionalService>> getAll() {
+	public DataResult<List<AdditionalServiceDetailDto>> getAll() {
 		return this.additionalServicesService.getAll();
 	}
 	
 	@GetMapping("/getbyıd")
-	public DataResult<AdditionalService> getById(int id) {
+	public DataResult<AdditionalServiceDetailDto> getById(int id) {
 		return this.additionalServicesService.getById(id);
 	}
 	

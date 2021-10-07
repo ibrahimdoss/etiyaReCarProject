@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.etiya.reCapProject.core.utilities.results.DataResult;
 import com.etiya.reCapProject.core.utilities.results.Result;
-import com.etiya.reCapProject.entities.concretes.RentAl;
+import com.etiya.reCapProject.entities.dtos.RentalDetailDto;
 import com.etiya.reCapProject.entities.requests.rentalRequest.AddRentAlRequest;
 import com.etiya.reCapProject.entities.requests.rentalRequest.DeleteRentAlRequest;
 import com.etiya.reCapProject.entities.requests.rentalRequest.UpdateRentAlRequest;
@@ -21,8 +21,8 @@ public interface RentAlService {
 	
 	Result delete(DeleteRentAlRequest deleteRentAlRequest);
 	
-	DataResult<List<RentAl>> getAll();
+	DataResult<List<RentalDetailDto>> getAll();
 	
-	DataResult<RentAl> getById(int id);
+	DataResult<RentalDetailDto> getById(int id);
 
 }

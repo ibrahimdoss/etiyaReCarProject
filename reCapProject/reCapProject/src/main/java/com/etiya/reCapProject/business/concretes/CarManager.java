@@ -1,12 +1,17 @@
 package com.etiya.reCapProject.business.concretes;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.etiya.reCapProject.business.abstracts.BrandService;
+import com.etiya.reCapProject.business.abstracts.CarImagesService;
 import com.etiya.reCapProject.business.abstracts.CarService;
-import com.etiya.reCapProject.business.constants.Messages;
+import com.etiya.reCapProject.business.abstracts.ColorService;
+import com.etiya.reCapProject.business.constants.messages.CarMessages;
 import com.etiya.reCapProject.core.utilities.results.DataResult;
 import com.etiya.reCapProject.core.utilities.results.Result;
 import com.etiya.reCapProject.core.utilities.results.SuccessDataResult;
@@ -16,42 +21,72 @@ import com.etiya.reCapProject.entities.concretes.Brand;
 import com.etiya.reCapProject.entities.concretes.Car;
 import com.etiya.reCapProject.entities.concretes.Color;
 import com.etiya.reCapProject.entities.dtos.CarDetailsDto;
+import com.etiya.reCapProject.entities.dtos.CarDto;
+import com.etiya.reCapProject.entities.dtos.GetCarDetailDto;
 import com.etiya.reCapProject.entities.requests.carRequest.AddCarRequest;
 import com.etiya.reCapProject.entities.requests.carRequest.DeleteCarRequest;
 import com.etiya.reCapProject.entities.requests.carRequest.UpdateCarRequest;
+
 
 @Service
 public class CarManager implements CarService {
 	
 	private CarDao carDao;
+	private ModelMapper modelMapper;
+	private BrandService brandService;
+	private ColorService colorService;
+	private CarImagesService carImagesService;
 	
 	@Autowired
-	public CarManager(CarDao carDao) {
+	public CarManager(CarDao carDao,ModelMapper modelMapper,BrandService brandService,
+			ColorService colorService,
+			CarImagesService carImagesService) {
 		super();
 		this.carDao = carDao;
+		this.modelMapper=modelMapper;
+		this.brandService=brandService;
+		this.colorService=colorService;
+		this.carImagesService=carImagesService;
 	}
 	
 
 	@Override
 	public DataResult<List<CarDetailsDto>> getCarWithDetails() {
-		return new SuccessDataResult<List<CarDetailsDto>>(this.carDao.getCarWithDetails()+ Messages.DetailsList);
+		return new SuccessDataResult<List<CarDetailsDto>>(this.carDao.getCarWithDetails()+ CarMessages.DetailsList);
 	}
 
 	
-
-
-
 	@Override
-	public DataResult<List<Car>> getAll() {
-		return new SuccessDataResult<List<Car>>(this.carDao.findAll());
-				
+	public DataResult<List<CarDto>> getAllCarsDetails() {
+		
+		List<Car> cars = this.carDao.findAll();
+		
+		List<CarDto> carDtos=new ArrayList<CarDto>();
+		
+		for (Car car : cars) {
+			
+			CarDto carDto= modelMapper.map(car, CarDto.class);
+			carDto.setBrandDto(this.brandService.getByBrandId(car.getBrand().getBrandId()).getData());
+			carDto.setColorDto(this.colorService.getByColorId(car.getColor().getColorId()).getData());
+			
+			carDtos.add(carDto);
+			
+			
+		}
+		return new SuccessDataResult<List<CarDto>>(carDtos,CarMessages.GetAll);
 		
 	}
 
 	@Override
-	public DataResult<Car> getById(int carId) {
-		return new SuccessDataResult<Car>(this.carDao.getById(carId),Messages.Listed);
+	public DataResult<GetCarDetailDto> getById(int carId) {
 		
+		Car car = this.carDao.getById(carId);
+		
+		GetCarDetailDto getCarDetailDto = modelMapper.map(car, GetCarDetailDto.class);
+		getCarDetailDto.setBrandName(car.getBrand().getBrandName());
+		getCarDetailDto.setColorName(car.getColor().getColorName());
+		
+		return new SuccessDataResult<GetCarDetailDto>(getCarDetailDto, CarMessages.GetById);
 		
 	}
 	
@@ -59,7 +94,7 @@ public class CarManager implements CarService {
 	@Override
 	public DataResult<List<Car>> getByCarCity(String city) {
 		List<Car> cars=this.carDao.getByCity(city);
-		return new SuccessDataResult<List<Car>>(cars, Messages.List);
+		return new SuccessDataResult<List<Car>>(cars, CarMessages.GetCarsByCityId);
 	}
 	
 	
@@ -67,14 +102,14 @@ public class CarManager implements CarService {
 	@Override
 	public DataResult<List<Car>> getByBrand_brandId(int brandId) {
 		List<Car> cars= this.carDao.getByBrand_brandId(brandId);
-		return new SuccessDataResult<List<Car>>(cars, Messages.Listed);
+		return new SuccessDataResult<List<Car>>(cars, CarMessages.GetCarsByBrandId);
 	}
 
 
 	@Override
 	public DataResult<List<Car>> getByColor_colorId(int colorId) {
 		List<Car> cars= this.carDao.getByColor_colorId(colorId);
-		return new SuccessDataResult<List<Car>>(cars, Messages.Listed);
+		return new SuccessDataResult<List<Car>>(cars, CarMessages.GetCarsByColorId);
 	}
 
 	@Override
@@ -100,7 +135,7 @@ public class CarManager implements CarService {
 		car.setColor(color);
 		
 		this.carDao.save(car);
-		return new SuccessResult(Messages.Add);
+		return new SuccessResult(CarMessages.Add);
 	}
 
 	@Override
@@ -129,7 +164,7 @@ public class CarManager implements CarService {
 		car.setColor(color);
 		
 		this.carDao.save(car);
-		return new SuccessResult(Messages.Update);
+		return new SuccessResult(CarMessages.Update);
 
 		
 	}
@@ -151,7 +186,7 @@ public class CarManager implements CarService {
 		car.setColor(color);
 		
 		this.carDao.delete(car);
-		return new SuccessResult(Messages.Delete);
+		return new SuccessResult(CarMessages.Delete);
 
 		
 	}
@@ -159,14 +194,18 @@ public class CarManager implements CarService {
 
 	@Override
 	public DataResult<List<Car>> IsCarCareIsTrue() {
-		return new SuccessDataResult<List<Car>>(this.carDao.IsCarCareIsTrue());
+		return new SuccessDataResult<List<Car>>(this.carDao.IsCarCareIsTrue(),CarMessages.ChangeCarSituation);
 	}
 
 
 	@Override
 	public DataResult<List<Car>> IsCarCareIsFalse() {
-		return new SuccessDataResult<List<Car>>(this.carDao.IsCarCareIsFalse());
+		return new SuccessDataResult<List<Car>>(this.carDao.IsCarCareIsFalse(),CarMessages.GetCarsAreNotInCare);
 	}
+
+
+
+
 
 
 	

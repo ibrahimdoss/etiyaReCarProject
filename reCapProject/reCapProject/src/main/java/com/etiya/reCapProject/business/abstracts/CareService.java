@@ -4,14 +4,17 @@ import java.util.List;
 
 import com.etiya.reCapProject.core.utilities.results.DataResult;
 import com.etiya.reCapProject.core.utilities.results.Result;
-import com.etiya.reCapProject.entities.concretes.Care;
+import com.etiya.reCapProject.entities.dtos.CarCareDto;
 import com.etiya.reCapProject.entities.requests.careRequest.AddCareRequest;
 import com.etiya.reCapProject.entities.requests.careRequest.DeleteCareRequest;
 import com.etiya.reCapProject.entities.requests.careRequest.UpdateCareRequest;
 
 public interface CareService {
 	
-	DataResult<List<Care>> getAll();
+	DataResult<List<CarCareDto>> getAll();
+	
+	DataResult<CarCareDto> getById(int id);
+
 	
  	Result add(AddCareRequest addCareRequest);
 	

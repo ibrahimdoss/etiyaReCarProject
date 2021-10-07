@@ -17,6 +17,8 @@ import com.etiya.reCapProject.core.utilities.results.DataResult;
 import com.etiya.reCapProject.core.utilities.results.Result;
 import com.etiya.reCapProject.entities.concretes.Car;
 import com.etiya.reCapProject.entities.dtos.CarDetailsDto;
+import com.etiya.reCapProject.entities.dtos.CarDto;
+import com.etiya.reCapProject.entities.dtos.GetCarDetailDto;
 import com.etiya.reCapProject.entities.requests.carRequest.AddCarRequest;
 import com.etiya.reCapProject.entities.requests.carRequest.DeleteCarRequest;
 import com.etiya.reCapProject.entities.requests.carRequest.UpdateCarRequest;
@@ -34,16 +36,18 @@ public class CarsControllers {
 	}
 	
 	@GetMapping("/getcarıd")
-	public DataResult<Car> getById(int carId) {
+	public DataResult<GetCarDetailDto> getById(int carId) {
 		return this.carService.getById(carId);
 		
 	}
 	
-	@GetMapping("/getallcar")
-	public DataResult<List<Car>> getAll() {
-		return this.carService.getAll();
-		
+	
+	
+	@GetMapping("/getcaralldetails")
+	public DataResult<List<CarDto>> getAllCarsDetails() {
+		return this.carService.getAllCarsDetails();
 	}
+
 	
 	@GetMapping("/getallcity")
 	public DataResult<List<Car>> getByCarCity(String city) {

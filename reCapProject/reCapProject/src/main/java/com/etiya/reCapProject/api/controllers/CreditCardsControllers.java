@@ -16,6 +16,7 @@ import com.etiya.reCapProject.business.abstracts.CreditCardService;
 import com.etiya.reCapProject.core.utilities.results.DataResult;
 import com.etiya.reCapProject.core.utilities.results.Result;
 import com.etiya.reCapProject.entities.concretes.CreditCard;
+import com.etiya.reCapProject.entities.dtos.GetCreditCardDetailDto;
 import com.etiya.reCapProject.entities.requests.creditCardRequest.AddCreditCardRequest;
 import com.etiya.reCapProject.entities.requests.creditCardRequest.DeleteCreditCardRequest;
 import com.etiya.reCapProject.entities.requests.creditCardRequest.UpdateCreditCardRequest;
@@ -33,12 +34,12 @@ public class CreditCardsControllers {
 	}
 	
 	@GetMapping("/getall")
-	public DataResult<List<CreditCard>> getAll() {
+	public DataResult<List<GetCreditCardDetailDto>> getAll() {
 		return this.creditCardService.getAll();
 	}
 	
 	@GetMapping("/getcreditcardbyıd")
-	public DataResult<CreditCard> getById(int id) {
+	public DataResult<GetCreditCardDetailDto> getById(int id) {
 		return this.creditCardService.getById(id);
 	}
 	

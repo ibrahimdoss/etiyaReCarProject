@@ -30,7 +30,7 @@ public class Care {
 	private int careId;
 	
 	@Column(name="location")
-	private String location;
+	private String location;	
 	
 	
 	@Column(name="start_date")
